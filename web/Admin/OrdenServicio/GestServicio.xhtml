@@ -1,0 +1,175 @@
+<ui:composition template="../../WEB-INF/resource/template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui"
+                xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <ui:define name="contenido">
+        <div class="col m12 l12 s12"> <!-- inicio contenido tabla y Formulario -->
+
+            <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;">
+                <h:outputText value="#{os.gestionServicio}"/>
+            </h3>
+            <div class="row">
+                <h:form class="col m12 l12 s12" id="formServicio">  <!-- name="valida2" --> <!-- inicio formulario-->
+                    <p:growl id="mensaje" showDetail="true"></p:growl>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 3}">
+                        <div class="col m4 l4 s4" style="margin-bottom: 20px;">
+                            <i class="material-icons prefix">group</i>
+                            <p:outputLabel value="#{os.lblTecDisponible}"></p:outputLabel>
+                            <p:selectOneMenu id="tecnico"
+                                             value="#{ordenServicioSession.ordenServicio.asignaciontecnicoidAsignacionTecnico}" 
+                                             a:placeholder="Steven Romero" required="true">
+                                <f:selectItems value="#{asignacionTecnicoSession.listaTecnicosDisponibles}"/>
+                            </p:selectOneMenu>                            
+                        </div>
+                    </h:column>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1 
+                                          or personaSession.personaSesion.rolIdRol.idRol == 2}">
+                        <div class="col m4 l4 s4" style="margin-bottom: 20px;">
+                            <i class="material-icons prefix">group</i>
+                            <p:outputLabel value="#{os.lblTecDisponible}"></p:outputLabel>
+                            <p:selectOneMenu id="tecnico2"
+                                             value="#{ordenServicioSession.ordenServicio.asignaciontecnicoidAsignacionTecnico}" 
+                                             a:placeholder="Steven Romero" required="true">
+                                <f:selectItems value="#{asignacionTecnicoSession.listaTecnicosDisponiblesTodos}"/>
+
+                            </p:selectOneMenu>                            
+                        </div>
+                    </h:column>
+                    <div class=" col m4 l4 s4" style="margin-bottom: 20px;">
+                        <i class="material-icons prefix">build</i>
+                        <p:outputLabel for="tipoServicio" value="#{os.lblTipoServicio}"></p:outputLabel>
+                        <p:selectOneMenu id="tipoServicio" value="#{ordenServicioSession.ordenServicio.tipoServicio}" 
+                                         required="true">
+                            <f:selectItem itemValue="0" itemDisabled="true" itemLabel="#{os.itemLabelTipoServicio}"/>  
+                            <f:selectItem itemValue="#{os.itemCorrectivo}" itemLabel="#{os.itemCorrectivo}"/>
+                            <f:selectItem itemValue="#{os.itemPreventivo}" itemLabel="#{os.itemPreventivo}"/>
+                            <f:selectItem itemValue="#{os.itemDiagnostico}" itemLabel="#{os.itemDiagnostico}"/>
+                            <f:selectItem itemValue="#{os.itemInstalacion}" itemLabel="#{os.itemInstalacion}"/>
+                        </p:selectOneMenu>
+                    </div>
+                    <!-- se mostraran la lista de todos los clientes-->
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1 or personaSession.personaSesion.rolIdRol.idRol == 3}"> 
+                        <div class="col m4 l4" style="margin-bottom: 20px;">
+                            <i class="material-icons prefix">account_circle</i>
+                            <p:outputLabel value="#{os.lblNombreCliente}"></p:outputLabel>
+                            <p:selectOneMenu id="persona" value="#{ordenServicioSession.ordenServicio.personaidPersona}" 
+                                             required="true"
+                                             requiredMessage="The Nombre del cliente field is required." >
+                                <f:selectItems value="#{personaSession.listaClientes}"/>
+
+                            </p:selectOneMenu>
+
+                        </div>
+                    </h:column>
+                    <!-- se mostrara en una lista el nombre del cliente que esta  en la sesion--> 
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}">
+                        <!-- este div solo se muestra a los clientes-->
+                        <div class="col m4 l4" style="margin-bottom: 20px;">
+                            <i class="material-icons prefix">account_circle</i>
+                            <p:outputLabel value="#{os.lblNombreCliente}"></p:outputLabel>
+                            <p:selectOneMenu id="persona2" value="#{ordenServicioSession.ordenServicio.personaidPersona}" 
+                                             required="true"
+                                             requiredMessage="The Nombre del cliente field is required.">
+                                <f:selectItems value="#{personaSession.listaUserSesion}" />
+                            </p:selectOneMenu>
+                        </div>
+                    </h:column>
+                    <div class="col m6 l6 s6">
+                        <i class="material-icons prefix">print</i>
+                        <p:outputLabel value="#{os.tblProductos}" for="prod"/>
+                        <p:chips id="prod" value="#{ordenServicioSession.listaProdSolicitados}" 
+                                 placeholder="Modelo:Serial" required="true" requiredMessage="Ingrese los productos a gestionar, por favor"/>
+                        <p:tooltip id="toolTipFocus" for="prod" 
+                                   value="#{os.toolTpProductos}" position="right"/>  
+                    </div>
+                    <div class="col m6 l6 s6">
+                        <i class="material-icons prefix">today</i>
+                        <p:outputLabel for="fecha1" value="#{os.lblFechaInicioServicio}"></p:outputLabel>
+                        <p:inputText id="fecha1" class="datepicker" required="true" a:placeholder="#{os.lblFechaInicioServicio}"
+                                     value="#{ordenServicioSession.ordenServicio.fechaInicio}"
+                                     title="Seleccione la Fecha del Servicio" ><f:convertDateTime pattern="yyyy/MM/dd"/>
+                        </p:inputText>
+                        <p:tooltip id="tooltp2" for="fecha1" 
+                                   value="#{os.toolTpFecha}" position="right"/>
+                    </div>
+                    <div class="input-field col m12 l12 s12">
+                        <i class="material-icons prefix">description</i>
+                        <p:inputTextarea id="descripcionServicio" class="materialize-textarea" 
+                                         value="#{ordenServicioSession.ordenServicio.descripcionServicio}"
+                                         required="true" requiredMessage="Solo se permite texto"/>
+                        <p:tooltip id="tooltp" for="descripcionServicio" 
+                                   value="#{os.toolTpDescripcion}" position="right"/>
+                        <p:outputLabel value="#{os.lblDescripcionServicio}" for="descripcionServicio"></p:outputLabel>
+                    </div>
+                    <div class="fixed-action-btn horizontal"> <!-- Inicio botones  -->
+                        <a class="btn-floating btn-large">
+                            <i class="large material-icons">keyboard_arrow_left</i>
+                        </a>
+                        <ul>
+                            <li><p:commandButton action="#{ordenServicioSession.ingresoOrdenServicio}" 
+                                                 class="btn-floating btn tooltipped" a:data-position="top" a:data-delay="50" 
+                                                 a:data-tooltip="#{os.btnGuardarOrden}" icon="ui-icon-disk" 
+                                                 style="background-color: #48C658;" 
+                                                 ajax="false" resetValues="true">
+
+                                </p:commandButton>
+                            </li>
+                            <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 3}">
+                                <li>
+                                    <a class=" btn tooltipped modal-trigger btn-floating red"
+                                       data-position="top" data-delay="50" data-tooltip="#{os.btnCerrarServicio}" href="#modal">
+                                        <i class="material-icons">close</i></a>
+                                </li>
+                            </h:column>    
+                        </ul>
+                    </div> <!-- fin botones -->
+
+                </h:form> <!-- fin formulario -->
+
+            </div>
+            <div class="row">
+                <p:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                    <ui:include src="AgregarProductos.xhtml">
+
+                    </ui:include>
+                </p:column> 
+
+
+                <p:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}">
+                    <ui:include src="Calificacion.xhtml">
+
+                    </ui:include>
+                </p:column>
+                <p:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1 or 
+                                      personaSession.personaSesion.rolIdRol.idRol == 2}">
+                    <ui:include src="EstadoServicio.xhtml">
+                    </ui:include>
+                </p:column> 
+            </div>
+            <p:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 3}"> 
+                <div id="modal" class="modal">
+                    <div class="modal-content">
+                        <ui:include src="CierreServicio.xhtml">
+
+                        </ui:include>
+                    </div>
+                </div>
+            </p:column>
+
+            <ui:include src="TablaServicios.xhtml">
+
+            </ui:include>
+
+        </div> <!-- fin contenido de la tabla y el formulario -->
+
+    </ui:define>
+
+</ui:composition>
+
+
+
+

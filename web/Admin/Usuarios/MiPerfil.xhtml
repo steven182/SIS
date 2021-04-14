@@ -1,0 +1,255 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+
+    <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;"><h:outputText value="#{gu.miperfil}"/></h3>
+    <div class="col m5 center-align">
+        <div class="col m6 offset-m3">
+            <br/>
+            <h:form id="fotoperfil">
+                <h:graphicImage class="responsive-img" library="perfiles" name="#{personaSession.personaSesion.foto}"/>
+            </h:form>
+        </div>
+    </div>
+    <div class="col m6">
+        <h5><h:outputText value="#{gu.lblInfoPersonal}"/></h5>
+        <h:form id="datosbasicos">
+            <div class="col m7 left-align">
+                <p><h:outputText value="#{gu.lblNombres}"/><h:outputText value="#{personaSession.personaSesion.primernombre} #{personaSession.personaSesion.segundonombre}"/></p>
+                <p><h:outputText value="#{gu.lblTipoId}"/><h:outputText value="#{personaSession.personaSesion.tipoIdentificacion}"/></p>
+                <p><h:outputText value="#{gu.lblDireccion}"/><h:outputText value="#{personaSession.personaSesion.direccion}"/></p>
+                <p><h:outputText value="#{gu.lblCorreo}"/><h:outputText value="#{personaSession.personaSesion.correo}"/></p>
+            </div>
+            <div class="col m5 right-align">
+                <p><h:outputText value="#{gu.lblApellidos}"/><h:outputText value="#{personaSession.personaSesion.primerapellido} #{personaSession.personaSesion.segundoapellido}"/></p>
+                <p><h:outputText value="#{gu.lblNumId}"/><h:outputText value="#{personaSession.personaSesion.numeroIdentificacion}"/></p>
+                <p><h:outputText value="#{gu.lblTelefono}"/><h:outputText value="#{personaSession.personaSesion.telefono}"/></p>
+                <p><h:outputText value="#{gu.lblCiudad}"/><h:outputText value="#{personaSession.personaSesion.ciudadIdciudad.nombre}"/></p>
+                <p><h:outputText value="#{gu.lblRol}"/><h:outputText value="#{personaSession.personaSesion.rolIdRol.nombre}"/></p>
+            </div>
+        </h:form>
+        <a class="btn modal-trigger" style="background-color: #009ed6;" href="#editarperfil"><h:outputText value="#{gu.btnEditarPerfil}"/></a>            
+    </div>
+    <div id="editarperfil" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <div class="row">
+                <div class="col s12 m12 l12">
+                    <f:view>
+                        <h:form id="form3"><!-- Inicio dataTable Persona-->
+                            <p:growl id="mensaje2"/>
+                            #{personaSession.personaActiva()}
+                            <h5 class="center-align"><h:outputText value="#{gu.datosBasicos}"/></h5>
+                            <hr/>
+                            <p:dataTable id="tablaUsuarios" value="#{personaSession.listaPersonaAct}" var="item2"
+                                         editable="true">
+                                <p:ajax event="rowEdit" listener="#{personaSession.guardarPersona(item2)}"  update=":form3:mensaje2"/>
+                                <p:ajax event="rowEditCancel" listener="#{personaSession.cancelar2}" update=":form3:mensaje2"/>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblPrimerNombre}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.primernombre}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.primernombre}"
+                                                         validatorMessage="El Primer Nombre solo se permiten letras">
+                                                <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblSegundoNombre}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.segundonombre}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.segundonombre}"
+                                                         validatorMessage="El Segundo Nombre solo se permiten letras">
+                                                <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblPrimerApellido}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.primerapellido}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.primerapellido}"
+                                                         validatorMessage="El Primer apellido solo se permiten letras">
+                                                <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblSegundoApellido}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.segundoapellido}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.segundoapellido}"
+                                                         validatorMessage="El Segundo apellido solo se permiten letras">
+                                                <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblTipoId}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.tipoIdentificacion}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:selectOneMenu  value="#{item2.tipoIdentificacion}">
+                                                <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                                <f:selectItem itemValue="CC" itemLabel="Cédula de Ciudadanía"/>  
+                                                <f:selectItem itemValue="CE" itemLabel="Cédula Extranjera"/>
+                                                <f:selectItem itemValue="NIT" itemLabel="NIT"/>
+                                            </p:selectOneMenu>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblNumId}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.numeroIdentificacion}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.numeroIdentificacion}"
+                                                         validatorMessage="La identificación debe contener entre 8 y 10 digitos">
+                                                <f:validateLength minimum="8" maximum="10"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblDireccion}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.direccion}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.direccion}">
+                                                <f:validateRegex pattern="[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblTelefono}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.telefono}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.telefono}"
+                                                         validatorMessage="El telefono debe contener entre 7 y 10 digitos"
+                                                         type="number">
+                                                <f:validateLength minimum="7" maximum="10"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblCorreo}"/>
+                                    </f:facet>         
+                                    <p:cellEditor>
+                                        <f:facet name="output">
+                                            <h:outputText value="#{item2.correo}"/>
+                                        </f:facet>
+                                        <f:facet name="input">
+                                            <p:inputText value="#{item2.correo}" validatorMessage="Correo Invalido">
+                                                <f:validateRegex pattern="[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)"/>
+                                            </p:inputText>
+                                        </f:facet>
+                                    </p:cellEditor> 
+                                </p:column>
+                                <p:column>
+                                    <f:facet name="header">
+                                        <h:outputText value="#{gu.lblAccion}"/>
+                                    </f:facet>
+                                    <p:rowEditor/>
+                                </p:column>
+                            </p:dataTable>
+                        </h:form><!-- fin dataTable Persona-->
+                    </f:view>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col s6 m6 l6">
+                    <h5 class="center-align"><h:outputText value="#{gu.cambiarFoto}"/></h5>
+                    <br/>
+                    <f:view>
+                        <h:form enctype="multipart/form-data">
+                            <div class="file-field input-field">
+                                <div class="btn" style="background-color: #009ed6;">
+                                    <h:outputText value="#{gu.btnEscojaArchivo}"/>
+                                    <h:inputFile  value="#{personaSession.cargaArchivos.file}" required="true"/>
+                                </div>
+                                <div class="file-path-wrapper">
+                                    <h:inputText class="file-path validate" required="true"
+                                                 requiredMessage="Seleccione un archivo por favor"/>
+                                </div>
+                                <br/>
+                            </div>
+                            <p:commandButton ajax="false" style="background-color: #009ed6;"
+                                             value="#{gu.cambiarFoto}" action="#{personaSession.cambiarFoto()}" />
+                        </h:form>
+                    </f:view>
+                </div>
+                <div class="col s6 m6 l6">
+                    <h5 class="center-align"><h:outputText value="#{gu.cambiarClave}"/></h5>
+                    <h:form>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{gu.lblClaveActual}" />
+                            <h:inputSecret  value="#{personaSession.claveactual}"/>
+                        </div>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{gu.lblNuevaClave}" />
+                            <h:inputSecret  value="#{personaSession.nuevaclave}"/>
+                        </div>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{gu.lblNuevaClaveRep}" />
+                            <h:inputSecret value="#{personaSession.nuevaclaveRep}"/>
+                        </div>
+                        <h:commandButton class="btn" action="#{personaSession.cambiarClave}" style="background-color: #009ed6;" value="#{gu.cambiarClave}"/>
+                    </h:form>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close btn-flat "><h:outputText value="#{gu.salir}"/></a>
+            <!--<a href="perfil.xhtml" class="modal-action modal-close btn-flat ">Guardar</a> -->
+        </div>
+    </div>
+</ui:fragment>

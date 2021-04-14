@@ -1,0 +1,207 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="report name" pageWidth="595" pageHeight="842" whenNoDataType="AllSectionsNoDetail" columnWidth="535" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="6132e06a-c628-44f5-8a43-4eba86514853">
+	<property name="ireport.zoom" value="2.0"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<style name="table">
+		<box>
+			<pen lineWidth="1.0" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TH" mode="Opaque" backcolor="#F0F8FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_CH" mode="Opaque" backcolor="#BFE1FF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<style name="table_TD" mode="Opaque" backcolor="#FFFFFF">
+		<box>
+			<pen lineWidth="0.5" lineColor="#000000"/>
+		</box>
+	</style>
+	<subDataset name="Table Dataset 1" uuid="f11c3c24-e964-4957-b51c-392859108d4c"/>
+	<queryString>
+		<![CDATA[select c.idContrato, ifnull(c.tipoContrato, 'Sin Especificar') as tipoContrato, 
+ifnull(c.valorContrato, 0000) as valorContrato, c.fechaInicio,c.fechaFin, c.descripcion,
+group_concat( distinct p.primernombre, ' ', p.primerapellido) as
+cliente, dp.modelo from contrato as c
+inner join persona as p on c.Persona_idPersona = p.idPersona
+inner join asignacion as a on a.idAsignacion = c.Asignacion_idAsignacion
+inner join detalleproducto as dp on dp.idDetalleProducto = a.DetalleProducto_idDetalleProducto
+group by c.idContrato;]]>
+	</queryString>
+	<field name="idContrato" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="tipoContrato" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="valorContrato" class="java.lang.Integer">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaInicio" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="fechaFin" class="java.sql.Date">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="descripcion" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<field name="cliente" class="java.lang.String"/>
+	<field name="modelo" class="java.lang.String">
+		<fieldDescription><![CDATA[]]></fieldDescription>
+	</field>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="141" splitType="Stretch">
+			<image>
+				<reportElement x="0" y="0" width="281" height="63" uuid="6893354d-ac83-4568-91c3-c0f0195d4d30"/>
+				<imageExpression><![CDATA["D:\\Fase5\\Sis2\\web\\resources\\imgs\\ceyt.png"]]></imageExpression>
+			</image>
+			<image>
+				<reportElement x="245" y="63" width="90" height="68" uuid="f592ab82-c623-4d40-8ad0-5cafec5fc7bd"/>
+				<imageExpression><![CDATA["D:\\Fase5\\Sis2\\web\\resources\\imgs\\ICONO-SIS.png"]]></imageExpression>
+			</image>
+		</band>
+	</title>
+	<pageHeader>
+		<band height="72" splitType="Stretch">
+			<rectangle>
+				<reportElement x="0" y="0" width="555" height="55" backcolor="#009ED6" uuid="a0944884-f6df-4fce-8be0-852ab9e39a9e"/>
+				<graphicElement>
+					<pen lineWidth="0.0"/>
+				</graphicElement>
+			</rectangle>
+			<staticText>
+				<reportElement x="189" y="0" width="194" height="31" forecolor="#FFFFFF" uuid="32e30973-a56e-4ef4-82ad-8bdb1ff23df0"/>
+				<textElement textAlignment="Center">
+					<font size="24"/>
+				</textElement>
+				<text><![CDATA[Contratos]]></text>
+			</staticText>
+		</band>
+	</pageHeader>
+	<columnHeader>
+		<band height="61" splitType="Stretch">
+			<staticText>
+				<reportElement x="0" y="20" width="69" height="37" uuid="8122bc09-3a19-4a9c-a7e1-11ee76ec9531"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[ID
+Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="69" y="20" width="69" height="37" uuid="666a42c8-4dd9-4a06-8d1c-f9d6781a8632"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Tipo
+Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="138" y="20" width="69" height="37" uuid="66465c33-6117-4d1f-9a81-725c80a2df76"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Valor del 
+Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="207" y="20" width="69" height="37" uuid="bf676bc7-ef43-4967-8c46-9ca264980177"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Inicio del
+Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="276" y="18" width="69" height="39" uuid="ab6890e3-07a7-4f14-8de7-3c7be51e9034"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Finalización
+del Contrato]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="345" y="18" width="69" height="20" uuid="934aeac4-d353-46e0-b2ff-e6b48bc892f2"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Descripción]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="412" y="18" width="69" height="20" uuid="f7797bb0-6be8-4b20-9c3d-188e5b001d72"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[cliente]]></text>
+			</staticText>
+			<staticText>
+				<reportElement x="481" y="18" width="69" height="20" uuid="354562c7-999d-4333-8211-2a168dbe6209"/>
+				<textElement>
+					<font isBold="true"/>
+				</textElement>
+				<text><![CDATA[Producto]]></text>
+			</staticText>
+			<line>
+				<reportElement x="-2" y="0" width="552" height="1" uuid="868af95c-1999-45d7-839f-baf32974ea87"/>
+			</line>
+		</band>
+	</columnHeader>
+	<detail>
+		<band height="70" splitType="Stretch">
+			<textField>
+				<reportElement x="0" y="31" width="69" height="39" uuid="da142936-3ea9-48cb-b0d3-397ce16655cd"/>
+				<textFieldExpression><![CDATA[$F{idContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="69" y="31" width="69" height="39" uuid="4d2527f6-f805-44b8-8118-756600deafa0"/>
+				<textFieldExpression><![CDATA[$F{tipoContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="138" y="31" width="69" height="39" uuid="e1e23d45-10af-41ab-841f-2dc09b40f0a5"/>
+				<textFieldExpression><![CDATA[$F{valorContrato}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="207" y="31" width="69" height="39" uuid="d2c67d95-d60c-4adb-8e1c-32297107d3f4"/>
+				<textFieldExpression><![CDATA[$F{fechaInicio}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="276" y="31" width="69" height="39" uuid="9c44d06b-4c44-49e6-8b9c-d5a5d259cc87"/>
+				<textFieldExpression><![CDATA[$F{fechaFin}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="345" y="31" width="69" height="39" uuid="36f0691b-8868-49a2-b4ce-de2590b831b7"/>
+				<textFieldExpression><![CDATA[$F{descripcion}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="414" y="31" width="69" height="39" uuid="2f7fcbec-339d-4443-9e65-20f8db82403b"/>
+				<textFieldExpression><![CDATA[$F{cliente}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement x="483" y="31" width="69" height="39" uuid="667ce3c3-3dba-4f66-8583-16e2902ec3f9"/>
+				<textFieldExpression><![CDATA[$F{modelo}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement x="0" y="0" width="552" height="1" uuid="90c45439-b1e4-4242-a44e-1e37950140a7"/>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band height="45" splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band height="54" splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band height="42" splitType="Stretch"/>
+	</summary>
+</jasperReport>

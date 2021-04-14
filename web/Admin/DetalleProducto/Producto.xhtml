@@ -1,0 +1,119 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <f:view>
+        <h:form id="formProducto" class="col m12 l12 s12"><!-- inicio formulario de la tabla Producto-->
+            <p:growl id="mensaje8" showDetail="true"/>
+            <h2 style="margin-bottom: 33px; color: #009ed6;" class="titulos">
+                <h:outputText value="#{dp.crearArticuloTitulo}"/></h2>
+            <div class="input-field col m6 s6 l6">
+                <i class="material-icons prefix">devices</i>
+                <p:outputLabel value="#{dp.lblNombreArticulo}" for="nomProducto"/>
+                <p:inputText id="nomProducto" value="#{productoSession.producto.nombreProducto}" 
+                             title="#{dp.lblNombreArticulo}" required="true" 
+                             requiredMessage="The NombreProducto field is required."
+                             validatorMessage="El Artículo solo debe contener letras">
+                <f:validateRegex pattern="^[a-zA-Z]+$"/>
+                </p:inputText>
+            </div> 
+            <div class="col m6 s6 l6">
+                <i class="material-icons prefix">devices_other</i>
+                <p:outputLabel value="#{dp.lblIdCategoria}"/>
+                <h:selectOneMenu id="idCategoria1" value="#{productoSession.producto.categoriaidCategoria}" 
+                                 required="true">
+                    <f:selectItems value="#{categoriaSession.listaCategoActivas}"/>
+                </h:selectOneMenu>
+                
+            </div>
+            <!-- Boton para ingresar Producto, el atributo update lo coloque para
+                    mostrar un comportamiento Ajax-->
+            <p:commandButton id="btnNombreProducto" action="#{productoSession.ingresoProducto()}" 
+                             class="btn-floating btn tooltipped" a:data-position="right" 
+                             a:data-delay="50" a:data-tooltip="#{dp.btnIngresarArticulo}" icon="ui-icon-disk"
+                             update="mensaje8,nomProducto,:form3:tablaProducto" style="float: right"/>
+           
+
+            <br/>
+        </h:form><!--fin formulario Producto-->
+           
+        <!-- metodo para mostrar las categorias en dataTable 
+       lo realize asi por que fue la unica forma que me sirvio-->
+        #{productoSession.mostrarProductos()}
+        <h:form id="form3"> <!-- inicio dataTable Producto-->
+            <p:growl id="message3"/>
+            <h3 class="titulos" style="color: #009ed6">
+                <h:outputText value="#{dp.listaArticulos}"/>
+            </h3>
+            <p:dataTable id="tablaProducto" value="#{productoSession.listaProducto}" var="item3" paginator="true" 
+                         editable="true" rows="5">
+                <p:ajax event="rowEdit" listener="#{productoSession.guardarProducto(item3)}" update=":form3:message3"/>
+                <p:ajax event="rowEditCancel" listener="#{productoSession.cancelar2}" update=":form3:message3"/>
+
+
+                <p:column filterBy="#{item3.idProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{os.tblID}"/>
+                    </f:facet>
+                    <h:outputText value="#{item3.idProducto}"/>
+                </p:column>
+                <p:column filterBy="#{item3.nombreProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblNombreArticulo}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item3.nombreProducto}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item3.nombreProducto}"/>
+                        </f:facet>
+                    </p:cellEditor>                      
+                </p:column>
+                <p:column filterBy="#{item3.categoriaidCategoria.nombreCategoria}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblNombreCategoria}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item3.categoriaidCategoria.nombreCategoria}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item3.categoriaidCategoria}"/>
+                        </f:facet>
+                    </p:cellEditor>                      
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{os.btnAccion}"/>
+                    </f:facet>
+                    <p:rowEditor/>
+                    <p:commandButton class="btn tooltipped botonStyle" action="#{productoSession.eliminarProducto(item3)}" 
+                                     icon="ui-icon-trash" a:data-position="right" a:data-delay="30" a:data-tooltip="#{dp.btnEliminarArticulo}"
+                                     style="padding:0px;" update=":form3:message3,tablaProducto" >
+                        <p:confirm header="#{dp.lblConfirmacion}" message="#{dp.msgConfirmacion}" 
+                                   icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                        <p:commandButton value="#{dp.lblSi}" type="button" styleClass="ui-confirmdialog-yes" 
+                                         icon="ui-icon-check" />
+                        <p:commandButton value="#{dp.lblNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog> 
+
+                </p:column>
+            </p:dataTable>
+        </h:form> <!-- fin dataTable Producto-->
+
+    </f:view>
+
+
+</ui:fragment>
+
+
+
+

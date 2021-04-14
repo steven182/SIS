@@ -1,0 +1,111 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <!-- inicio del modal que contiene el formulario y dataTable categorias-->
+
+    <f:view>
+        <div class="row">   
+            <h:form id="formCategoria" class="col m12 l12 s12"> <!-- inicio formulario de la tabla categoria-->
+                <p:growl id="mensaje" showDetail="true"/>
+                <h2 style="margin-bottom: 33px; color: #009ed6;" class="titulos">
+                    <h:outputText value="#{dp.crearCategoriaTitulo}"/></h2>
+
+                <div class="input-field center col m9 l9">
+                    <i class="material-icons prefix">playlist_add</i>
+                    <p:outputLabel value="#{dp.lblNombreCategoria}" for="nombreCategoria" />
+                    <p:inputText id="nombreCategoria" value="#{categoriaSession.categoria.nombreCategoria}" 
+                                 title="#{dp.lblNombreCategoria}" required="true" 
+                                 requiredMessage="The NombreCategoria field is required."
+                                 validatorMessage="El Categoria solo se permiten letras">
+                        <f:validateRegex pattern="^[a-zA-Z]+$"/>
+                    </p:inputText>
+                </div>
+                <div class="input-field center col m3 l3"> 
+                    <!-- Boton para ingresar una categoria, el atributo update lo coloque para
+                    mostrar un comportamiento Ajax-->
+                    <p:commandButton id="btnNombreCategoria" action="#{categoriaSession.registroCategoria}" 
+                                     class="btn tooltipped btn-floating" a:data-position="top" a:data-delay="50" 
+                                     a:data-tooltip="#{dp.btnIngresarCategoria}" icon="ui-icon-disk"
+                                     update="formCategoria,mensaje,:form2:tablaCategoria"/>
+
+                </div>
+                <br/>
+                <br/>
+            </h:form> <!-- fin formulario categoria-->
+        </div> 
+
+        #{categoriaSession.mostrarCategoria()} <!-- metodo para mostrar las categorias en la tabla 
+                                               lo realize asi por que fue la unica forma que me sirvio-->
+        <h:form id="form2"> <!-- inicio dataTable categoria-->
+            <p:growl id="message2"/>
+            <h3 class="titulos" style="color: #009ed6">
+                <h:outputText value="#{dp.listaCategoria}"/>
+            </h3>
+            <p:dataTable id="tablaCategoria" value="#{categoriaSession.listaCategoria}" var="item"
+                         rows="5" paginator="true" editable="true" >
+                <p:ajax event="rowEdit" listener="#{categoriaSession.guardarCategoria(item)}" update=":form2:message2"/>
+                <p:ajax event="rowEditCancel" listener="#{categoriaSession.cancelar1}" update=":form2:message2"/>
+
+
+                <p:column filterBy="#{item.idCategoria}">
+                    <f:facet name="header">
+                        <h:outputText value="#{os.tblID}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.idCategoria}"/>
+                </p:column>
+                <p:column filterBy="#{item.nombreCategoria}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblNombreCategoria}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.nombreCategoria}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.nombreCategoria}"/>
+                        </f:facet>
+                    </p:cellEditor>                      
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{os.btnAccion}"/>
+                    </f:facet>
+                    <p:rowEditor/>
+                    <p:commandButton action="#{categoriaSession.eliminarCategoria(item)}" class="btn tooltipped botonStyle"
+                                     icon="ui-icon-trash" update=":form2:message2,tablaCategoria" 
+                                     a:data-position="right" a:data-delay="30" a:data-tooltip="#{dp.btnEliminarCategoria}"
+                                     style="padding: 0px">
+                        <p:confirm header="#{dp.lblConfirmacion}" message="#{dp.msgConfirmacion}" 
+                                   icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                        <p:commandButton value="#{dp.lblSi}" type="button" styleClass="ui-confirmdialog-yes" 
+                                         icon="ui-icon-check" />
+                        <p:commandButton value="#{dp.lblNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog> 
+
+                </p:column>
+            </p:dataTable>
+        </h:form> <!-- fin dataTable categoria-->
+
+    </f:view>
+
+
+    <div class="modal-footer" style="text-align: center">
+        <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">
+            <h:outputText value="#{dp.btnAceptar}"/></a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">
+                <h:outputText value="#{dp.btnCancelar}"/>
+            </a>
+    </div>
+    <!-- fin del modal categorias-->
+    <!-- ______________ -->
+
+</ui:fragment>
+

@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <div class="col s12 m12 l12" id="flotar">
+        <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;"><h:outputText value="#{gu.añadirRoles}"/></h3>
+
+        <div class="container">
+            <h:form enctype="multipart/form-data">
+                <div class="file-field input-field">
+                    <div class="btn blue">
+                        <span><h:outputText value="#{gu.btnEscojaArchivo}"/></span>
+                        <h:inputFile value="#{rolSession.file}" required="true" requiredMessage="Seleccione un archivo por favor"/>
+                    </div>
+
+                    <div class="file-path-wrapper">
+                        <h:inputText class="file-path validate" required="true"
+                                     requiredMessage="Seleccione un archivo por favor"/>
+                    </div>
+                </div>
+
+                <p:commandButton action="#{rolSession.cargarArchivos()}" value="#{gu.btnSubirDatos}" ajax="false"  />
+            </h:form>
+            <br/>
+            <h:form id="formRol"><!-- Inicio dataTable Persona-->
+                <p:growl id="msgRol"/>
+                <h5 class="center-align"><h:outputText value="#{gu.listaDeRoles}"/></h5>
+                <hr/>
+                #{rolSession.mostrarRol()}
+                <p:dataTable id="tblRol" value="#{rolSession.listaRol}" var="rol">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblNombre}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rol.nombre}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{rol.nombre}"/>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblDescripcion}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{rol.descripcion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{rol.descripcion}"/>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+
+    </div>
+</ui:fragment>

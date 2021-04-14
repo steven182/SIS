@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <div class="col m6 l6 s6">
+    <h:form id="calificacion">
+        <h4 class="titulos" style="color: #009ed6;">
+            <h:outputText value="#{os.calificarServicioTitulo}"/>
+        </h4>
+        <div class="col m12 l12 s12">
+            <i class="material-icons prefix">plus_one</i>
+            <p:outputLabel value="#{os.lblNumeroOrdenServicio}" style="margin-left: 15px"/>
+            <p:selectOneMenu id="ordenServicioidOrdenServicio" value="#{calificacionServicioSession.calificacionServicio.ordenServicioidOrdenServicio}"
+                             required="true" requiredMessage="Escoga el servicio a calificar"
+                             style="margin-left: 40px;">
+                <!-- TODO: update below reference to list of available items-->
+                <f:selectItems value="#{ordenServicioSession.listaServiciosSesion}"/>
+            </p:selectOneMenu>
+            
+        </div>
+        <div class="input-field col s2 m2 l2">
+            
+        </div>
+        <div class="col s3 m3 l3">
+            <p:outputLabel value="#{os.lblPuntualidad}" for="puntualidad"/>
+            <p:rating id="puntualidad" value="#{calificacionServicioSession.calificacionServicio.puntualidad}" required="true"
+                        validatorMessage="Califique la puntualidad por favor">
+                <f:validateLongRange minimum="1" maximum="5"/>
+            </p:rating>
+        </div>
+        <div class="col s3 m3 l3">
+            <p:outputLabel value="#{os.lblOrdenTecnico}" for="orden"/>
+            <p:rating id="orden" value="#{calificacionServicioSession.calificacionServicio.ordenTecnico}" required="true"
+                      validatorMessage="Califique el oden del técnico por favor" >
+                <f:validateLongRange maximum="5" minimum="1" />
+            </p:rating>
+            
+        </div>
+        <div class="col s3 m3 l3">
+            <p:outputLabel value="#{os.lblEjecucionServicio}" for="ejecucion"/>    
+            <p:rating id="ejecucion" value="#{calificacionServicioSession.calificacionServicio.ejecucionServicio}" required="true"
+                      validatorMessage="Califique la ejecución del servicio por favor">
+                <f:validateLongRange maximum="5" minimum="1"/>
+            </p:rating>
+        </div>
+        <div class="input-field col s12 m12 l12">
+            <i class="material-icons prefix">chat</i>
+            <p:outputLabel value="#{os.lblComentarios}" for="descrip"/>
+            <h:inputTextarea id="descrip" value="#{calificacionServicioSession.calificacionServicio.comentariosServicio}"
+                             class="materialize-textarea" required="true" requiredMessage="Ingrese la descripción"/>
+        </div>
+        
+        <br/>
+        <p:commandButton value="#{os.btnCalificar}" action="#{calificacionServicioSession.calificar}" 
+                         update="mensa,calificacion,:formServicio:tecnico, :formServicio:tecnico2, 
+                         :formServicio:tipoServicio, :formServicio:persona, :formServicio:persona2,
+                         :formServicio:prod:, :formServicio:descripcionServicio :formServ:tablaOrden2" 
+                         class="btn waves-effect waves-light" style="float:right" ajax='false'/>
+
+    </h:form>
+        </div>
+</ui:fragment>

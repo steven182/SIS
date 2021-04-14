@@ -1,0 +1,309 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <div class="col s12 m12 l12" id="flotar">
+        <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;"><h:outputText value="#{gu.gestionarUsuarios}"/></h3>
+        <div>
+            <h:form style="margin-top: 100px;" id="chart">
+                <p:chart type="bar" model="#{charPersona.model}"/>    
+            </h:form>
+        </div>
+        <br/>
+        <f:view>
+            <h:form id="formularioTecnicosActivos"><!-- Inicio dataTable Persona-->
+                <p:growl id="mensajeTecnicosActivos"/>
+                #{personaSession.listarUsuariosActivos()}
+                <h5 class="center-align"><h:outputText value="#{gu.listaUsuariosAc}"/></h5>
+                <p:dataTable id="tablaTecnicosActivos" value="#{personaSession.listaPersona2}" var="item"
+                             editable="true">
+                    <p:ajax event="rowEdit" listener="#{personaSession.guardarPersona(item)}" update=":formularioTecnicosActivos:mensajeTecnicosActivos"/>
+                    <p:ajax event="rowEditCancel" listener="#{personaSession.cancelar2}" update=":formularioTecnicosActivos:mensajeTecnicosActivos"/>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblRol}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.rolIdRol.nombre}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{item.rolIdRol}">
+                                    <f:selectItems value="#{rolSession.itemsAvailableSelectOne}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblNombre}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.primernombre}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.primernombre}"
+                                             validatorMessage="El Nombre solo se permiten letras">
+                                    <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblApellido}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.primerapellido}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.primerapellido}"
+                                             validatorMessage="El Apellido solo se permiten letras">
+                                    <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblTipoId}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.tipoIdentificacion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu  value="#{item.tipoIdentificacion}">
+                                    <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                    <f:selectItem itemValue="CC" itemLabel="Cédula de Ciudadanía"/>  
+                                    <f:selectItem itemValue="CE" itemLabel="Cédula Extranjera"/>
+                                    <f:selectItem itemValue="NIT" itemLabel="NIT"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblNumId}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.numeroIdentificacion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.numeroIdentificacion}"
+                                             validatorMessage="La identificación debe contener entre 8 y 10 digitos">
+                                    <f:validateLength minimum="8" maximum="10"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblDireccion}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.direccion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.direccion}" validatorMessage="Dirección Invalida">
+                                    <f:validateRegex pattern="[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblTelefono}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.telefono}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.telefono}"
+                                             validatorMessage="El telefono debe contener entre 7 y 10 digitos"
+                                             type="number">
+                                    <f:validateLength minimum="7" maximum="10"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblCorreo}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.correo}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{item.correo}" validatorMessage="Correo Invalido">
+                                    <f:validateRegex pattern="[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblAccion}"/>
+                        </f:facet>
+                        <p:rowEditor/>
+                        <p:commandButton action="#{personaSession.inhabilitarTecnico(item)}" update=":formularioTecnicosActivos:mensajeTecnicosActivos, tablaTecnicosActivos,formTecIn" 
+                                         title="#{gu.lblInhabilitar}" icon="ui-icon-locked" />
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </f:view>
+        <br/>
+        <div class="col s12 m12 l12">
+            <a class="btn modal-trigger" style="background-color: #009ed6;" href="#creartecnico"><h:outputText value="#{gu.btnCrearTecnico}"/></a>
+        </div>
+        <div id="creartecnico" class="modal modal-fixed-footer">
+            <div class="modal-content">
+                <div class="row">
+                    <div class="col s12 m12 l12">
+                        <f:view>
+                            <div class="row">
+                                <h:form class="col m12 l12 s12">
+                                    <p:growl id="mensaje1" showDetail="true"/>
+                                    <div class="input-field center col m6 l6 s6">
+                                        <h:selectOneMenu id="genero" value="#{personaSession.persona.genero}" required="true"
+                                                         requiredMessage="Elija un género por favor">
+                                            <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                            <f:selectItem itemValue="M" itemLabel="Masculino"/>  
+                                            <f:selectItem itemValue="F" itemLabel="Femenino"/>
+                                        </h:selectOneMenu>
+                                        <p:outputLabel value="Género" for='genero'/>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">person</i>
+                                        <p:inputText id="prn" value="#{personaSession.persona.primernombre}" 
+                                                     title="Primer Nombre" required="true" 
+                                                     requiredMessage="El primer nombre no acepta campos vacios"
+                                                     validatorMessage="El Primer Nombre solo se permiten letras">
+                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                        </p:inputText>
+                                        <p:outputLabel value="Primer Nombre" for="prn"/>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">person_outline</i>
+                                        <p:outputLabel value="Segundo Nombre" for="segundonombre"/>
+                                        <p:inputText id="segundonombre" value="#{personaSession.persona.segundonombre}" 
+                                                     requiredMessage="Solo se permiten letras"
+                                                     validatorMessage="El Segundo Nombre solo se permiten letras">
+                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">person</i>
+                                        <p:outputLabel value="Primer Apellido"  for='primerapellido'/>
+                                        <p:inputText id="primerapellido" value="#{personaSession.persona.primerapellido}" 
+                                                     title="Primer Apellido" required="true"
+                                                     requiredMessage="El primer apellido no acepta campos vacios"
+                                                     validatorMessage="El Primer Apellido solo se permiten letras">
+                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">person_outline</i>
+                                        <p:outputLabel value="Segundo Apellido" />
+                                        <p:inputText id="segundoapellido" value="#{personaSession.persona.segundoapellido}" 
+                                                     title="Segundo Apellido"
+                                                     validatorMessage="El Segundo apellido solo se permiten letras">
+                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6 s6">
+                                        <h:selectOneMenu id="tipoIdentificacion" value="#{personaSession.persona.tipoIdentificacion}"
+                                                         required="true" requiredMessage="Elija un tipo de documento">
+                                            <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                            <f:selectItem itemValue="CC" itemLabel="Cédula de Ciudadanía"/>  
+                                            <f:selectItem itemValue="CE" itemLabel="Cédula Extranjera"/>
+                                            <f:selectItem itemValue="NIT" itemLabel="NIT"/>
+                                        </h:selectOneMenu>
+                                        <p:outputLabel value="Tipo de Identificación" for='tipoIdentificacion' />
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">credit_card</i>
+                                        <p:outputLabel value="Numero de Identificación" for='numeroIdentificacion'/>
+                                        <p:inputText id="numeroIdentificacion" value="#{personaSession.persona.numeroIdentificacion}" 
+                                                     required="true" type="number"
+                                                     requiredMessage="La Identificación no acepta campos vacios"
+                                                     validatorMessage="La Identificación debe contener entre 8 y 10 digitos">
+                                            <f:validateLength minimum="8" maximum="10"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6 s6">
+
+                                        <h:selectOneMenu id="ciudad" value="#{personaSession.persona.ciudadIdciudad}" required="true"
+                                                         requiredMessage="Elija la ciudad de residencia">
+                                            <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  /> 
+                                            <f:selectItems value="#{ciudadSession.itemsAvailableSelectMany}" />
+                                        </h:selectOneMenu>
+                                        <p:outputLabel value="Ciudad" for='ciudad'/>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">location_on</i>
+                                        <p:outputLabel value="Dirección" for='direccion' />
+                                        <p:inputText id="direccion" value="#{personaSession.persona.direccion}" title="Direccion" 
+                                                     required="true" validatorMessage="Dirección Invalida"
+                                                     requiredMessage="La Dirección no acepta campos vacios">
+                                            <f:validateRegex pattern="[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">phone_iphone</i>
+                                        <p:outputLabel value="Telefono *" />
+                                        <p:inputText id="telefono" value="#{personaSession.persona.telefono}" title="Telefono" 
+                                                     required="true" validatorMessage="El telefono debe contener entre 7 y 10 digitos"
+                                                     type="number" requiredMessage="El Telefono no acepta campos vacios">
+                                            <f:validateLength minimum="7" maximum="10"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">email</i>
+                                        <p:outputLabel value="Correo" for='correo' />
+                                        <p:inputText id="correo" value="#{personaSession.correo}" title="Correo" required="true" 
+                                                     validatorMessage="Correo Invalido"
+                                                     requiredMessage="El Correo no acepta campos vacios">
+                                            <f:validateRegex pattern="[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)"/>
+                                        </p:inputText>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">email</i>
+                                        <p:outputLabel value="Repite el Correo *"  />
+                                        <p:inputText id="correorep" value="#{personaSession.correoRep}" title="Correo" required="true" 
+                                                     requiredMessage="El Correo no acepta campos vacios"/>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">lock</i>
+                                        <p:outputLabel value="Contraseña *" />
+                                        <p:password id="contrasena" value="#{personaSession.clave}" title="Contrasena" required="true" requiredMessage="La contraseña es obligatoria."/>
+                                    </div>
+                                    <div class="input-field center col m6 l6">
+                                        <i class="material-icons prefix">lock</i>
+                                        <p:outputLabel value="Repite la Contraseña *" />
+                                        <p:password id="contrasenarep" value="#{personaSession.claveRep}" title="Contrasena" required="true" requiredMessage="La contraseña es obligatoria"/>
+                                    </div>
+                                    <div class="input-field center col m12 l12">
+                                        <h:commandLink action="#{personaSession.registroTecnico()}" class="modal-action waves-effect waves-green btn-flat"><h:outputText value="#{gu.btnAceptar}"/></h:commandLink>
+                                        <h:commandLink action="#!" class="modal-action modal-close waves-effect waves-red btn-flat" immediate="true" value="#{gu.btnCancelar}" />
+                                        <br/><br/>
+                                    </div>
+                                </h:form>
+                            </div>    
+                        </f:view>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ui:fragment>

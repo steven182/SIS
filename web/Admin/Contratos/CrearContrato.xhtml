@@ -1,0 +1,378 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment
+    xmlns="http://www.w3.org/1999/xhtml"
+    xmlns:h="http://xmlns.jcp.org/jsf/html"
+    xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+    xmlns:f="http://xmlns.jcp.org/jsf/core"
+    xmlns:p="http://primefaces.org/ui"
+    xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+    xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+
+    <div class="col s12 m12 l12" id="flotar">
+        <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;"><h:outputText value="#{c.lblCrearContrato}"/></h3>
+        <div class="col s6 m6 l6">
+            <h5 class="center"><h:outputText value="#{c.lblArriendo}"/></h5>
+            <f:view>
+                <h:form>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                        <p:growl showDetail="true" />
+                        <div class="input-field center col s12 m12 l12">
+                            <p:outputLabel value="#{c.lblPrecio}" for="valorContrato" />
+                            <p:inputText id="valorContrato" value="#{contratoSession.contrato.valorContrato}"  
+                                         title="ValorContrato" required="true" 
+                                         requiredMessage="The ValorContrato field is required."/>
+                        </div>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{c.lblFechadePago}" for="fechaDePago" />
+                            <h:inputText id="fechaDePago" value="#{contratoSession.contrato.fechaDePago}" title="FechaDePago" />
+                        </div>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{c.lblCopiasIncluidas}" for="copiasIncluidas" />
+                            <h:inputText id="copiasIncluidas" value="#{contratoSession.contrato.copiasIncluidas}"  title="CopiasIncluidas" />
+                        </div>
+                    </h:column>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:outputLabel value="#{c.lblDescripcion}" for="descripcion" />
+                        <h:inputText class="materialize-textarea" id="descripcion" value="#{contratoSession.contrato.descripcion}" title="Descripcion" required="true" requiredMessage="The Descripcion field is required."/>
+                    </div>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:outputLabel value="#{c.lblFechaInicio}" for="fechaInicio" />
+                        <h:inputText class="form-control desde" value="#{contratoSession.contrato.fechaInicio}" id="fechaInicio"  title="FechaInicio" required="true" requiredMessage="The FechaInicio field is required.">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:inputText>
+                    </div>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:outputLabel value="#{c.lblFechaFin}" for="fechaFin" />
+                        <h:inputText class="form-control desde" value="#{contratoSession.contrato.fechaFin}" id="fechaFin"  title="FechaFin" required="true" requiredMessage="The FechaFin field is required.">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:inputText>
+                    </div>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:selectOneMenu id="producto" value="#{contratoSession.contrato.asignacionidAsignacion}" title="AsignacionidAsignacion" 
+                                         required="true" requiredMessage="The AsignacionidAsignacion field is required." converter="asignacion">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{asignacionProductosSession.listaProductosAdmin}" />
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{c.lblProducto}" for="producto" />
+                    </div>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                        <div class="input-field center col s12 m12 l12">
+                            <h:selectOneMenu id="cliente" value="#{contratoSession.contrato.personaidPersona}" title="AsignacionidAsignacion" required="true" requiredMessage="The AsignacionidAsignacion field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{personaSession.listaClientesContrato}"/>
+                            </h:selectOneMenu>
+                            <h:outputLabel value="#{c.lblArriendo}" for="cliente" />
+                        </div>
+                    </h:column>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}">
+                        <div class="input-field center col s12 m12 l12">
+                            <h:selectOneMenu id="cliente2" value="#{contratoSession.contrato.personaidPersona}" title="AsignacionidAsignacion" required="true" requiredMessage="The AsignacionidAsignacion field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{personaSession.listaUsuarioSessionContrato}" />
+                            </h:selectOneMenu>
+                            <h:outputLabel value="#{c.lblCliente}" for="cliente2" />
+                        </div>
+                    </h:column>
+                    <p:commandButton class="btn" value="#{c.btnEnviar}" action="#{contratoSession.crearContratoArriendo}" ajax="false"/>
+                </h:form>
+            </f:view>
+        </div>
+        <div class="col s6 m6 l6">
+            <h5 class="center"><h:outputText value="Servicio Técnico"/></h5>
+            <f:view>
+                <h:form>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                        <p:growl showDetail="true" />
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{c.lblValor}"  for="valorContrato" />
+                            <h:inputText id="valorContrato" value="#{contratoSession.contrato.valorContrato}"  title="ValorContrato" required="true" requiredMessage="The ValorContrato field is required."/>
+
+                        </div>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:outputLabel value="#{c.lblCopiasIncluidas}" for="copiasIncluidas" />
+                            <h:inputText id="copiasIncluidas" value="#{contratoSession.contrato.costeManoObra}"  title="CopiasIncluidas" />
+                        </div>
+                        <div class="input-field center col s12 m12 l12">
+                            <h:selectOneMenu value="#{contratoSession.contrato.respuestosIncluidos}">
+                                <f:selectItem itemDisabled="true" itemLabel="#{c.itemlblescojaOpcion1}" />
+                                <f:selectItem itemValue="1" itemLabel="#{c.itemlblescojaOpcion2}" />
+                                <f:selectItem itemValue="0" itemLabel="#{c.itemlblescojaOpcion}" />
+                            </h:selectOneMenu>
+                            <h:outputLabel value="#{c.lblCopiasIncluidas}" for="copiasIncluidas" />
+                        </div>
+                    </h:column>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:outputLabel value="#{c.lblDescripcion}" for="descripcion" />
+                        <h:inputText class="materialize-textarea" id="descripcion" value="#{contratoSession.contrato.descripcion}" title="Descripcion" required="true" requiredMessage="The Descripcion field is required."/>
+                    </div>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:outputLabel value="#{c.lblFechaInicio}" for="fechaInicio" />
+                        <h:inputText class="form-control desde" id="fechaInicio"  value="#{contratoSession.contrato.fechaInicio}" title="FechaInicio" required="true" requiredMessage="The FechaInicio field is required.">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:inputText>
+                    </div>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:outputLabel value="#{c.lblFechaFin}" for="fechaFin" />
+                        <h:inputText class="form-control desde" id="fechaFin"  value="#{contratoSession.contrato.fechaFin}" title="FechaFin" required="true" requiredMessage="The FechaFin field is required.">
+                            <f:convertDateTime pattern="yyyy/MM/dd" />
+                        </h:inputText>
+                    </div>
+                    <div class="input-field center col s12 m12 l12">
+                        <h:selectOneMenu id="asignacionst" value="#{contratoSession.contrato.asignacionidAsignacion}" 
+                                         title="AsignacionidAsignacion" required="true" requiredMessage="The AsignacionidAsignacion field is required."
+                                         converter="asignacion">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{asignacionProductosSession.listaProductosAdmin}"/>
+                        </h:selectOneMenu>
+                        <h:outputLabel value="#{c.lblProducto}" for="asignacionidAsignacion" />
+                    </div>
+
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                        <div class="input-field center col s12 m12 l12">
+                            <h:selectOneMenu id="persona" value="#{contratoSession.contrato.personaidPersona}" title="AsignacionidAsignacion" required="true" requiredMessage="The AsignacionidAsignacion field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{personaSession.listaClientesContrato}"/>
+                            </h:selectOneMenu>
+                            <h:outputLabel value="#{c.lblCliente}" for="persona" />
+                        </div>
+                    </h:column>
+                    <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}">
+                        <div class="input-field center col s12 m12 l12">
+                            <h:selectOneMenu id="persona2" value="#{contratoSession.contrato.personaidPersona}" title="AsignacionidAsignacion" required="true" requiredMessage="The AsignacionidAsignacion field is required.">
+                                <!-- TODO: update below reference to list of available items-->
+                                <f:selectItems value="#{personaSession.listaUsuarioSessionContrato}" />
+                            </h:selectOneMenu>
+                            <h:outputLabel value="#{c.lblCliente}" for="persona2" />
+                        </div>
+                    </h:column>
+                    <p:commandButton class="btn" value="#{c.btnEnviar}" action="#{contratoSession.crearContratoServicioTecnico()}" ajax="false"/>
+                </h:form>
+            </f:view>
+        </div>
+
+        <c:choose>
+            <c:when test="#{personaSession.personaSesion.rolIdRol.idRol == 2}">
+                #{contratoSession.listaContratoSesion()}
+            </c:when>
+            <c:otherwise>
+                #{contratoSession.listarContratosActivos()}
+            </c:otherwise>
+        </c:choose>
+        <f:view>
+            <h:form id="formTecIn"><!-- Inicio dataTable Contratos-->
+                <p:growl id="msgTecIn"/>
+                <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;">Lista de Contratos</h3>
+                <hr/>
+                <p:dataTable id="tblTecIn" value="#{contratoSession.listaContratos}" var="item"
+                             editable="true" rows="5" paginator="true">
+                    <p:ajax event="rowEdit" listener="#{contratoSession.guardarContrato(item)}" update=":formTecIn:msgTecIn"/>
+                    <p:ajax event="rowEditCancel" listener="#{contratoSession.cancelarContrato}" update=":formTecIn:msgTecIn"/>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblValor}"/>
+                        </f:facet>   
+                        <h:outputText value="#{item.valorContrato}" rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}"/>
+                        <p:cellEditor rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                            <f:facet name="output">
+                                <h:outputText value="#{item.valorContrato}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.valorContrato}"/>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblFechaInicio}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.fechaInicio}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.fechaInicio}" class="datepicker">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                                </h:inputText>
+
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblFechaFin}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.fechaFin}">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                                </h:outputText>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.fechaFin}" class="datepicker">
+                                    <f:convertDateTime pattern="yyyy/MM/dd" />
+                                </h:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblDescripcion}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{item.descripcion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.descripcion}"/>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblFechadePago}"/>
+                        </f:facet>  
+                        <h:outputText value="#{item.fechaDePago}" rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}"/>
+                        <p:cellEditor rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                            <f:facet name="output">
+                                <h:outputText value="#{item.fechaDePago}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.fechaDePago}" />
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblCopiasIncluidas}"/>
+                        </f:facet> 
+                        <h:outputText value="#{item.copiasIncluidas}" rendered="#{personaSession.personaSesion.rolIdRol.idRol == 2}"/>
+                        <p:cellEditor rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                            <f:facet name="output">
+                                <h:outputText value="#{item.copiasIncluidas}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <h:inputText value="#{item.copiasIncluidas}"/>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblProducto}"/>
+                        </f:facet>         
+
+                        <h:outputText value="#{item.asignacionidAsignacion.detalleProductoidDetalleProducto.modelo}"/>
+
+
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblCliente}"/>
+                        </f:facet>         
+
+
+                        <h:outputText value="#{item.personaidPersona.primernombre} #{item.personaidPersona.primerapellido}"/>
+
+
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{c.lblidContrato}"/>
+                        </f:facet>
+                        <object type="application/pdf" width="100%" height="300px">
+                            <a href="#{item.fotoContrato}">Ver</a>
+                        </object>
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="Acción"/>
+                        </f:facet>
+                        <p:rowEditor/>
+                        <p:commandButton action="#{contratoSession.eliminarContrato(item)}" update=":formTecIn:msgTecIn, tblTecIn" 
+                                         icon="ui-icon-trash" 
+                                         a:data-position="right" a:data-delay="30" a:data-tooltip="#{c.lblEliminar}"
+                                         style="padding: 0px" class="btn tooltipped botonStyle"
+                                         >
+                            <p:confirm header="#{dp.lblConfirmacion}" message="#{dp.msgConfirmacion}" 
+                                       icon="ui-icon-alert" />
+                        </p:commandButton>
+                        <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                            <p:commandButton value="#{dp.lblSi}" type="button" styleClass="ui-confirmdialog-yes" 
+                                             icon="ui-icon-check" />
+                            <p:commandButton value="#{dp.lblNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                        </p:confirmDialog>
+
+                        <p:commandButton action="#{contratoSession.edtiContrato(item)}" update=":form1"
+                                         icon="ui-icon-document" 
+                                         a:data-position="right" a:data-delay="30" a:data-tooltip="#{c.lblsubirContrato}"
+                                         style="padding: 0px" class="btn tooltipped botonStyle"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form><!-- fin dataTable Persona-->
+        </f:view>
+
+        <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+            <h:form>
+                <h:commandLink  actionListener="#{reporteContrato.PDFJPQL}" class="tooltipped"
+                                a:data-position="right" a:data-delay="50" 
+                                a:data-tooltip="#{os.btnReporte}" >
+                    <img src="../../resources/imgs/icono-pdf.png" style="width: 50px; height: 50px;"/>
+                </h:commandLink>
+            </h:form>
+            <h:form onsubmit="pdf">
+                <h:commandLink class="tooltipped" 
+                               a:data-position="right" a:data-delay="50" 
+                               a:data-tooltip="Contrato">    
+                    <object type="application/pdf" width="100%" height="300px" id="pfd">
+                        <a href="../../Archivos/contrato.pdf">
+                            <img src="../../resources/imgs/contrato.jpg" style="width: 50px; height: 50px;"/>
+                        </a>
+                    </object>
+                </h:commandLink>
+            </h:form>
+        </h:column>   
+        <div class="row">
+            <div class="col s6 m6 l6">
+                <h5 class="center-align"><h:outputText value="#{c.lblsubirContrato}"/></h5>
+                <br/>
+                <f:view>
+                    <h:form enctype="multipart/form-data" id="form1">
+                        <div class="col s12 m12 l12">
+                            <h:outputLabel value="#{c.lblidContrato}" for="producto" />
+                            <h:inputText value="#{contratoSession.contrato.idContrato}" disabled="true" required="true"/>
+
+                        </div>
+                        <div class="col s12 m12 l12">
+                            <h:outputLabel value="#{c.lblnombreCliente}" for="cliente" />
+                            <h:inputText value="#{contratoSession.contrato.personaidPersona.primernombre} #{contratoSession.contrato.personaidPersona.primerapellido}" 
+                                         disabled="true" required="true"/>
+
+                        </div>
+                        <div class="file-field input-field" >
+                            <div class="btn" style="background-color: #009ed6;">
+                                <h:outputText value="#{c.lblescojaArchivo}"/>
+                                <h:inputFile  value="#{contratoSession.cargaArchivos.file3}" required="true"/>
+                            </div>
+                            <div class="file-path-wrapper">
+                                <h:inputText class="file-path validate" required="true"
+                                             requiredMessage="Suba el contrato por favor"/>
+                            </div>
+                            <br/>
+                        </div>
+                        <br/>
+                        <p:commandButton ajax="false" style="background-color: #009ed6;"
+                                         value="#{c.btnSubirContrato}" 
+                                         action="#{contratoSession.cargarContrato}" />
+                    </h:form>
+                </f:view>
+            </div>
+
+        </div>
+
+    </div>
+</ui:fragment>

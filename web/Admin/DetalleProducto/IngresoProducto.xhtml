@@ -1,0 +1,201 @@
+<ui:composition template="../../WEB-INF/resource/template/template.xhtml"
+                xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:h="http://xmlns.jcp.org/jsf/html"
+                xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+                xmlns:f="http://xmlns.jcp.org/jsf/core"
+                xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+                xmlns:p="http://primefaces.org/ui">
+    <ui:define name="contenido">
+        <div class="col m12 l12 s12"> <!-- inicio contenido tabla y Formulario -->
+            <div class="row">
+                <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;">
+                    <h:outputText value="#{dp.ingresarNuevoProductoTitulo}"/></h3>
+                <h:form id="formCateg">
+                    <!-- formulario que contiene una lista de las categorias
+                       "Este campo no pertenece al formulario detalle producto, por ende se realiza su propio
+                        formulario"-->
+
+                    <div class="col m4 l4">
+                        <i class="material-icons prefix">print</i>
+                        <p:outputLabel value="#{dp.lblNombreCategoria}"/>
+                        <p:selectOneMenu value="#{categoriaSession.categoria.nombreCategoria}" 
+                                         required="true" 
+                                         requiredMessage="The CategoriaidCategoria field is required.">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{categoriaSession.listaCategoActivas}"/>  
+                        </p:selectOneMenu>
+                    </div>       
+
+                    <!-- fin formulario Categoria-->
+                </h:form>
+
+                <h:form id="formDetalleProducto"> <!-- inicio formulario DetalleProducto -->
+                    
+                    <div class="col m4 l4">
+                        <i class="material-icons prefix">devices</i>
+                        <p:outputLabel value="#{dp.lblNombreProducto}" for="nombreProducto"/>
+                        <p:selectOneMenu id="nombreProducto" value="#{detalleProductoSession.detalleProducto.productoidProducto}" 
+                                         required="true" requiredMessage="The NombreProducto field is required.">
+                            <f:selectItems value="#{productoSession.listaProductosActivos}"
+                                           />
+                        </p:selectOneMenu>
+
+                    </div> 
+                    <div class="col m4 l4 s4">
+                        <i class="material-icons prefix">devices_other</i>
+                        <p:outputLabel value="#{dp.lblNombreMarca}"/>
+                        <p:selectOneMenu id="nombreMarca" value="#{detalleProductoSession.detalleProducto.marcaidMarca}"
+                                         required="true" requiredMessage="The Marca field is required.">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{marcaSession.listaMarcasActivas}"/>
+                        </p:selectOneMenu>
+
+                    </div>
+                    <div class="input-field col m4 l4">
+                        <i class="material-icons prefix">whatshot</i>
+                        <p:outputLabel value="#{dp.lblModelo}" for="modelo"/>
+                        <p:inputText id="modelo" value="#{detalleProductoSession.detalleProducto.modelo}" title="Modelo" 
+                                     required="true" requiredMessage="Escriba el modelo por favor, Solo se permiten letras"
+                                     validatorMessage="El modelo solo se permiten letras y números" >
+                            <f:validateRegex pattern="^[a-zA-Z0-9 ]+$"/>
+                        </p:inputText>
+                    </div>
+                    <div class="input-field center col m4 l4">
+                        <i class="material-icons prefix">fingerprint</i>
+                        <p:outputLabel value="#{dp.lblSerial}" for="serial"/>
+                        <p:inputText id="serial" value="#{detalleProductoSession.detalleProducto.serialProducto}" 
+                                     title="#{dp.lblSerial}" required="true" 
+                                     requiredMessage="Digite el Serial del Producto por favor" 
+                                     validatorMessage="El Serial solo se permiten letras y números">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>
+                        </p:inputText>
+                    </div>
+                   
+                        <div class="input-field center col m4 l4">
+                            <i class="material-icons prefix">payment</i>
+                            <p:outputLabel value="#{dp.lblPrecio}" for="precio" />
+                            <p:inputText id="precio" value="#{detalleProductoSession.detalleProducto.precio}" 
+                                         title="#{dp.lblPrecio}" validatorMessage="El Precio debe estar entre $10.000 mil pesos y $10.000.000 millones de pesos">
+                            <f:validateLongRange minimum="10000" maximum="10000000"/>
+                            </p:inputText>
+                        </div>    
+                    <div class="input-field center col m4 l4">
+                        <i class="material-icons prefix">filter_9_plus</i>
+                        <p:outputLabel value="#{dp.lblCantidad}" for="cantidad" />
+                        <p:inputText id="cantidad" value="#{detalleProductoSession.detalleProducto.cantidad}"
+                                     title="#{dp.lblCantidad}" 
+                                     requiredMessage="Ingrese la cantidad por favor" 
+                                     validatorMessage="La Cantidad debe estar entre 1 y 20">
+                        <f:validateLongRange minimum="1" maximum="20"/>
+                        </p:inputText>
+                    </div>
+                    <div class="input-field center col m4 l4"> 
+                        <i class="material-icons prefix">money</i>
+                        <p:outputLabel value="#{dp.lblContador}" for="contadorMaquina" />
+                        <p:inputText id="contadorMaquina" value="#{detalleProductoSession.detalleProducto.contadorMaquina}" 
+                                     title="#{dp.lblContador}" validatorMessage="El Contador debe estar entre 1 y 999999">
+                        <f:validateLongRange minimum="1" maximum="999999"/>
+                        </p:inputText>
+                    </div>
+                    <div class="input-field center col m12 l12"> 
+                        <i class="material-icons prefix">description</i>
+                        <p:outputLabel value="#{dp.lblDescripcion}" for="descripcion"/>
+                        <p:inputTextarea id="descripcion" value="#{detalleProductoSession.detalleProducto.descripcion}" 
+                                         title="#{dp.lblDescripcion}" class="materialize-textarea" requiredMessage="Solo se permite texto" >
+                        </p:inputTextarea>
+                    </div>    
+                    <div class="fixed-action-btn horizontal"> <!-- Inicio botones  -->
+                        <a class="btn-floating btn-large">
+                            <i class="large material-icons">keyboard_arrow_left</i>
+                        </a>
+                        <ul>
+
+                            <li><p:commandButton action="#{detalleProductoSession.ingresarProducto()}" 
+                                                 class="btn-floating btn tooltipped" a:data-position="top" a:data-delay="50" 
+                                                 a:data-tooltip="#{dp.btnGuardarDetalleP}" icon="ui-icon-disk" style="background-color: #2196F3;"
+                                                 update=":formCateg,formDetalleProducto,:form1:tablaMaquina,:formAsignarProd">
+
+                                </p:commandButton></li> <!-- boton para ingresar datos a la tabla DetalleProducto-->
+                            <li>
+                                <a class="btn tooltipped modal-trigger btn-floating blue"
+                                   data-position="top" data-delay="50" data-tooltip="#{dp.btnNuevaCategoria}" href="#modal1">
+                                    <i class="material-icons">art_track</i></a> <!-- boton que contiene un modal para ingresar datos a la tabla Categoria-->
+                            </li>
+                            <li>
+                                <a class=" btn tooltipped modal-trigger btn-floating green"
+                                   data-position="top" data-delay="50" data-tooltip="#{dp.btnNuevaMarca}" href="#modal2">
+                                    <i class="material-icons">library_books</i></a> <!-- boton que contiene un modal para ingresar datos a la tabla Marca-->
+                            </li>
+                            <li>
+                                <a class=" btn tooltipped modal-trigger btn-floating red"
+                                   data-position="top" data-delay="50" data-tooltip="#{dp.btnNuevoArticulo}" href="#modal3">
+                                    <i class="material-icons">invert_colors</i></a> <!-- boton que contiene un modal para ingresar datos a la tabla Producto-->
+                            </li>
+                        </ul>
+                    </div> <!-- fin botones -->
+                </h:form><!-- fin Formulario Detalle Producto-->   
+            </div>
+            <ui:include src="AsignacionProductos.xhtml">
+
+            </ui:include>
+
+            <ui:include src="TablaAsignacion.xhtml">
+
+            </ui:include>
+            <div id="modal1" class="modal"> 
+                <div class="modal-content">
+                    <ui:include src="Categoria.xhtml">
+
+                    </ui:include>
+                </div>
+            </div>
+            <!-- inicio del modal que contiene el formulario y dataTable Marca --> 
+            <div id="modal2" class="modal">
+                <div class="modal-content">
+                    <ui:include src="Marca.xhtml">
+
+                    </ui:include>
+
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">
+                        <h:outputText value="#{dp.btnAceptar}"/>
+                    </a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">
+                        <h:outputText value="#{dp.btnCancelar}"/>
+                    </a>
+                </div>
+            </div>
+            <!-- fin modal Marca-->
+            <!-- ______________ -->
+
+            <!-- inicio del modal que contiene el formulario y dataTable Producto -->
+            <div id="modal3" class="modal">
+                <div class="modal-content">
+                    <ui:include src="Producto.xhtml">
+
+                    </ui:include>
+
+                </div>
+                <div class="modal-footer" style="text-align: center">
+                    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">
+                        <h:outputText value="#{dp.btnAceptar}"/>
+                    </a>
+                    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat">
+                        <h:outputText value="#{dp.btnCancelar}"/>
+                    </a>
+                </div>
+            </div><!-- fin modal Producto-->
+
+
+        </div> <!-- fin contenido de la tabla y el formulario -->
+        
+    </ui:define>
+</ui:composition>
+
+
+
+
+
+
+

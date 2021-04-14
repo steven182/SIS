@@ -1,0 +1,32 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<faces-config version="2.2"
+              xmlns="http://xmlns.jcp.org/xml/ns/javaee"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-facesconfig_2_2.xsd">
+
+    <application>
+        <locale-config>
+            <default-locale>es</default-locale>
+        </locale-config>
+        <resource-bundle>
+            <base-name>com.sis.Lenguaje.OrdenServicio</base-name>
+            <var>os</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>com.sis.Lenguaje.DetalleProducto</base-name>
+            <var>dp</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>com.sis.Lenguaje.GestionarUsuarios</base-name>
+            <var>gu</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>com.sis.Lenguaje.Menu</base-name>
+            <var>mn</var>
+        </resource-bundle>
+        <resource-bundle>
+            <base-name>com.sis.Lenguaje.Contrato</base-name>
+            <var>c</var>
+        </resource-bundle>
+    </application>
+</faces-config>

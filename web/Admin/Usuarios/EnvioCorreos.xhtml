@@ -1,0 +1,29 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <div class="col s12 m12 l12" id="flotar">
+        <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;"><h:outputText value="#{gu.enviarCorreosMasivos}"/></h3>
+
+        <div class="container">
+            <h:form>
+
+                <div class="input-field center col s12 m12 l12">
+                    <p:outputLabel value="#{gu.lblAsunto}" for='asunt'/>
+                    <p:inputText id='asunt' value="#{personaSession.asunto}" required="true"
+                                 requiredMessage="No se aceptan campos vacios"/>
+                </div>
+                <div class="input-field center col s12 m12 l12">
+                    <p:outputLabel value="#{gu.lblMensaje}" for='mens'/>
+                    <p:inputText id="mens" class="materialize-textarea" value="#{personaSession.mensaje}" required="true"
+                                 requiredMessage="Escriba un mensaje por favor"/>
+                </div>
+                <h:commandButton class="btn" style="background-color: #009ed6;" value="#{gu.btnEnviar}" action="#{personaSession.enviarCorreoMasivo()}" />
+            </h:form>
+        </div>
+        
+    </div>
+</ui:fragment>

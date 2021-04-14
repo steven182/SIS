@@ -1,0 +1,181 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+    <f:view>
+
+        #{detalleProductoSession.mostarProductos()}
+        <h:form id="form1">
+            <p:growl id="mensaje9"></p:growl>
+            <h3 class="titulos" style="color: #009ed6">
+                <h:outputText value="#{dp.listaProductos}"/>
+            </h3>
+            <p:dataTable id="tablaMaquina" value="#{detalleProductoSession.listaDetalleProducto}" var="item" paginator="true"
+                         rows="5" editable="true" emptyMessage="Sin Coincidencias">
+                <p:ajax event="rowEdit" listener="#{detalleProductoSession.actualizaProducto(item)}"
+                        update=":form1:mensaje9"/>
+                <p:ajax event="rowEditCancel" listener="#{detalleProductoSession.cancelar}"
+                        update=":form1:mensaje9"/>
+                <p:column filterBy="#{item.modelo}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblModelo}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.modelo}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.modelo}"
+                            validatorMessage="El modelo solo se permiten letras y números" >
+                            <f:validateRegex pattern="^[a-zA-Z0-9 ]+$"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{item.serialProducto}" >
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblSerial}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.serialProducto}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.serialProducto}"
+                            validatorMessage="El Serial solo se permiten letras y números">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{item.precio}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblPrecio}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.precio}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.precio}"
+                            validatorMessage="El Precio debe estar entre $10.000 mil pesos y $10.000.000 millones de pesos">
+                            <f:validateLongRange minimum="10000" maximum="10000000"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{item.cantidad}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblCantidad}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.cantidad}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.cantidad}"
+                            validatorMessage="La Cantidad debe estar entre 1 y 20">
+                        <f:validateLongRange minimum="1" maximum="20"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{item.contadorMaquina}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblContador}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.contadorMaquina}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <p:inputText value="#{item.contadorMaquina}"
+                            validatorMessage="El Contador debe estar entre 1 y 999999">
+                        <f:validateLongRange minimum="1" maximum="999999"/>
+                            </p:inputText>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{item.descripcion}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblDescripcion}"/>
+                    </f:facet>
+                    <p:cellEditor>
+                        <f:facet name="output">
+                            <h:outputText value="#{item.descripcion}"/>
+                        </f:facet>
+                        <f:facet name="input">
+                            <h:inputText value="#{item.descripcion}"/>
+                        </f:facet>
+                    </p:cellEditor>
+                </p:column>
+                <p:column filterBy="#{item.marcaidMarca.nombreMarca}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblMarca}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.marcaidMarca.nombreMarca}"/>
+                </p:column>
+                <p:column filterBy="#{item.productoidProducto.nombreProducto}">
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblArticulo}"/>
+                    </f:facet>
+                    <h:outputText value="#{item.productoidProducto.nombreProducto}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{dp.lblUsuario}"/>
+                    </f:facet>
+                    <h:outputText value="#{asignacionProductosSession.getListaProdCliente(item)}"/>
+                </p:column>
+                <p:column>
+                    <f:facet name="header">
+                        <h:outputText value="#{os.btnAccion}"/>
+                    </f:facet>
+                    <p:rowEditor/>
+                    <p:commandButton action="#{detalleProductoSession.eliminarProducto(item)}" class="btn tooltipped botonStyle"
+                                     icon="ui-icon-trash" update=":form1:mensaje9,tablaMaquina" 
+                                     a:data-position="right" a:data-delay="30" a:data-tooltip="#{dp.btnEliminarProducto}"
+                                     style="padding: 0px" >
+                        <p:confirm header="#{dp.lblConfirmacion}" message="#{dp.msgConfirmacion}" 
+                                   icon="ui-icon-alert" />
+                    </p:commandButton>
+                    <p:confirmDialog global="true" showEffect="fade" hideEffect="fade" >
+                        <p:commandButton value="#{dp.lblSi}" type="button" styleClass="ui-confirmdialog-yes" 
+                                         icon="ui-icon-check" />
+                        <p:commandButton value="#{dp.lblNo}" type="button" styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+                    </p:confirmDialog> 
+
+                </p:column>
+            </p:dataTable>
+        </h:form>
+
+
+        <p:panelGrid columns="1" rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+            <h:form enctype="multipart/form-data">
+                
+                <div class="file-field input-field">
+                    <div class="btn blue">
+                        <span><h:outputText value="#{dp.btnBuscarArchivo}"/></span>
+                        <h:inputFile value="#{detalleProductoSession.cargaArchivos.file3}" required="true"/>
+                    </div>
+
+                    <div class="file-path-wrapper">
+                        <h:inputText class="file-path validate" required="true"
+                                     requiredMessage="Seleccione un archivo por favor"/>
+                    </div>
+                </div>
+
+                <p:commandButton class="btn tooltipped botonStyle" icon="ui-icon-arrowthickstop-1-n" action="#{detalleProductoSession.cargarProductos()}"
+                                 ajax="false" a:data-position="right" a:data-delay="50" 
+                                 a:data-tooltip="#{dp.btnSubirArchivo}" style="display: table-caption; margin-left: auto; margin-right: auto;"/>
+            </h:form>
+        </p:panelGrid>   
+    </f:view>
+
+
+
+</ui:fragment>

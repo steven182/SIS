@@ -1,0 +1,318 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:a="http://xmlns.jcp.org/jsf/passthrough">
+
+    <div class="row">
+        <f:view>
+            <h:form enctype="multipart/form-data" id="formCerrarServicio">
+                <h2 class="titulos"><h:outputText value="#{os.finalizarServicioTitulo}"/></h2>
+                <div class="col m6 l6">
+                    <i class="material-icons prefix">exposure_plus_1</i>
+                    <p:outputLabel value="#{os.lblIdServicio}" for="idOrdenServicio" style="margin-left: 15px"/>
+                    <p:inputText id="idOrdenServicio" value="#{ordenServicioSession.ordenServicio.idOrdenServicio}" 
+                                 required="true" 
+                                 requiredMessage="The IdOrdenServicio field is required." disabled="true"/>
+                </div>
+
+                <div class="col m6 l6">
+                    <i class="material-icons prefix">insert_invitation</i>
+                    <p:outputLabel value="#{os.lblFechaInicioServicio}" for="fechaInicio" style="margin-left: 15px"/>
+                    <p:inputText id="fechaInicio" value="#{ordenServicioSession.ordenServicio.fechaInicio}" 
+                                 required="true" 
+                                 requiredMessage="The FechaInicio field is required." disabled="true">
+                        <f:convertDateTime pattern="MM/dd/yyyy" />
+                    </p:inputText>
+                </div>
+                <div class="col m6 l6">
+                    <i class="material-icons prefix">insert_invitation</i>
+                    <p:outputLabel value="#{os.lblFechaFinalServicio}" style="margin-left: 15px"/>
+                    <h:inputText id="fechaFinalServicio" value="#{ordenServicioSession.ordenServicio.fechaFinalServicio}" 
+                                 title="FechaFinalServicio" class="datepicker">
+                        <f:convertDateTime pattern="yyyy/MM/dd"/>
+                    </h:inputText>
+                </div>
+                <div class="col m6 l6">
+                    <i class="material-icons prefix">build</i>
+                    <p:outputLabel value="#{os.lblTipoServicio}" for="tipoServicio" style="margin-left: 15px"/>
+                    <p:inputText id="tipoServicio" value="#{ordenServicioSession.ordenServicio.tipoServicio}" 
+                                 required="true" 
+                                 requiredMessage="The TipoServicio field is required." disabled="true"/>
+
+                </div> 
+                <div class="col m12 l12">
+                    <i class="material-icons prefix">description</i>
+                    <p:outputLabel value="#{os.lblDescrpInicial}" for="descripcionServicio" style="margin-left: 15px"/>
+                    <p:inputText id="descripcionServicio" value="#{ordenServicioSession.ordenServicio.descripcionServicio}" 
+                                 title="DescripcionServicio" disabled="true"/>
+                </div>
+                <div class="col m12 l12">
+                    <i class="material-icons prefix">description</i>
+                    <p:outputLabel value="#{os.lblDescrpFinal}" for="descripcionFinalServicio" style="margin-left: 15px"/>
+                    <p:inputText id="descripcionFinalServicio" value="#{ordenServicioSession.ordenServicio.descripcionFinalServicio}" title="DescripcionFinalServicio" />
+                </div>
+                <div class="col m6 l6">
+                    <i class="material-icons prefix">archive</i>
+                    <p:outputLabel value="#{os.lblInforme}" for="informeServicio" style="margin-left: 15px"/>
+                    <h:inputFile id="informeServicio" value="#{ordenServicioSession.cargaArchivos.file}"  />
+                </div>
+                <div class="col m6 l6">
+                    <i class="material-icons prefix">collections</i>
+                    <p:outputLabel value="#{os.lblEvidenciaFoto}" for="Evidencia" style="margin-left: 15px"/>
+                    <h:inputFile id="Evidencia"  value="#{ordenServicioSession.cargaArchivos.file2}"/>
+
+                </div>
+                <p:commandButton value="#{os.btnFinalizarServicio}" action="#{ordenServicioSession.cerrarServicio}"
+                                 style="display: table-caption; margin-left: auto; margin-right: auto;
+                                 margin-top: 40px;" class="btn waves-effect waves-light" ajax="false">
+                </p:commandButton>
+
+            </h:form>
+        </f:view>
+        <f:view>
+            <br/>
+            <hr/>
+            <p:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 3}">
+                #{ordenServicioSession.mostarOden()}
+            </p:column>
+            <p:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}">
+                #{ordenServicioSession.mostarOrdenTodos()}
+            </p:column>
+            <h:form>
+                <h3 class="titulos"><h:outputText value="#{os.lblServicio}"/></h3>
+                <p:dataTable value="#{ordenServicioSession.listaServicios}" var="item" rows="5" paginator="true"
+                             emptyMessage="No hay Registros">
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.tblID}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.idOrdenServicio}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.tblFechaInicio}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaInicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.tblFechaFinal}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.fechaFinalServicio}">
+                            <f:convertDateTime pattern="MM/dd/yyyy" />
+                        </h:outputText>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.tblFechaFinal}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.tipoServicio}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.lblDescrpInicial}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcionServicio}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.lblInforme}"/>
+                        </f:facet>
+                        <object type="application/pdf" width="100%" height="300px">
+                            <a href="#{item.informeServicio}">Ver</a>
+                        </object>
+                       <!-- <img id="archivosAdjuntos" src="#{item.informeServicio}" class="materialboxed"/>-->
+
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.lblDescrpFinal}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.descripcionFinalServicio}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.lblEvidenciaFoto}"/>
+                        </f:facet>
+                        <img id="archivosAdjuntos" src="#{item.evidenciaFotografica}" class="materialboxed"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.tblNombreTecnico}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.asignaciontecnicoidAsignacionTecnico.personaidPersona.primernombre}
+                                      #{item.asignaciontecnicoidAsignacionTecnico.personaidPersona.primerapellido}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.lblNombreCliente}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.personaidPersona.primernombre}
+                                      #{item.personaidPersona.primerapellido}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.lblEstadoServicio}"/>
+                        </f:facet>
+                        <h:outputText value="#{item.estadoServicio}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.btnAccion}"/>
+                        </f:facet>
+                        <p:commandButton action="#{ordenServicioSession.cerrarServicioTabla(item)}" 
+                                         update=":formCerrarServicio:idOrdenServicio, :formCerrarServicio:fechaInicio, :formCerrarServicio:tipoServicio,
+                                         :formCerrarServicio:descripcionServicio, :formCerrarServicio:descripcionFinalServicio" icon=" ui-icon-clipboard"
+                                         class="btn tooltipped botonStyle" a:data-position="top" a:data-delay="50" 
+                                         a:data-tooltip="#{os.btnCerrarServicio}"/>
+                        <h:commandLink  actionListener="#{reporteOrdenServicio.PDFJPQL(item)}" class="tooltipped" 
+                                a:data-position="right" a:data-delay="50" 
+                                a:data-tooltip="#{os.btnReporte}" style="float:right;">
+                    <img src="../../resources/imgs/icono-pdf.png" style="width: 30px; height: 30px;"/>     
+                </h:commandLink>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </f:view>
+        <br/>
+        <hr/>
+
+        <f:view>
+
+            #{detalleOrdenServicioSession.prodEditTecnico()}
+            <h:form id="a">
+                <h3 class="titulos"><h:outputText value="#{os.lblProductosPorServicio}"/></h3>
+                <p:dataTable id="c" value="#{detalleOrdenServicioSession.listaDetalleOrden}" var="var" editable="true" rows="5" paginator="true">
+                    <p:ajax event="rowEdit" listener="#{detalleProductoSession.actualizaProducto(var.asignacionidAsignacion.detalleProductoidDetalleProducto)}" update=":a,c"/>
+                    <p:ajax event="rowEditCancel" listener="#{detalleOrdenServicioSession.cancelar}" update=":a,c"/>
+
+                    <p:column filterBy="#{var.ordenServicioidOrdenServicio.idOrdenServicio}">
+                        <f:facet name="header">
+                            <h:outputText value="#{os.tblID}"/>
+                        </f:facet>
+                        <h:outputText value="#{var.ordenServicioidOrdenServicio.idOrdenServicio}"/>
+                    </p:column>
+                    <p:column filterBy="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.modelo}">
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblModelo}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.modelo}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.modelo}"
+                                validatorMessage="El modelo solo se permiten letras y números" >
+                            <f:validateRegex pattern="^[a-zA-Z0-9 ]+$"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.serialProducto}" >
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblSerial}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.serialProducto}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.serialProducto}"
+                                validatorMessage="El Serial solo se permiten letras y números">
+                            <f:validateRegex pattern="^[a-zA-Z0-9]+$"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.cantidad}">
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblCantidad}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.cantidad}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.cantidad}"
+                                validatorMessage="La Cantidad debe estar entre 1 y 20">
+                        <f:validateLongRange minimum="1" maximum="20"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.contadorMaquina}">
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblContador}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.contadorMaquina}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.contadorMaquina}"
+                                validatorMessage="El Contador debe estar entre 1 y 999999">
+                        <f:validateLongRange minimum="1" maximum="999999"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.marcaidMarca.nombreMarca}">
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblMarca}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.marcaidMarca.nombreMarca}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="nombreMar" value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.marcaidMarca}"
+                                                 required="true" requiredMessage="The Marca field is required.">
+                                    <!-- TODO: update below reference to list of available items-->
+                                    <f:selectItems value="#{marcaSession.listaMarcasActivas}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column filterBy="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.productoidProducto.nombreProducto}">
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblArticulo}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.productoidProducto.nombreProducto}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu id="nombreProducto" value="#{var.asignacionidAsignacion.detalleProductoidDetalleProducto.productoidProducto}" 
+                                                 required="true" requiredMessage="The NombreProducto field is required.">
+                                    <f:selectItems value="#{productoSession.listaProductosActivos}"
+                                                   />
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{dp.lblUsuario}"/>
+                        </f:facet>
+                        <h:outputText value="#{asignacionProductosSession.getListaProdCliente(var.asignacionidAsignacion.detalleProductoidDetalleProducto)}"/>
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{os.btnAccion}"/>
+                        </f:facet>
+                        <p:rowEditor/>
+
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </f:view>
+
+    </div>
+
+</ui:fragment>

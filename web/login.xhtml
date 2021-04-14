@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="es" xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"      
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:a="http://xmlns.jcp.org/jsf/passthrough"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <h:head>
+        <ui:include src="WEB-INF/resource/template/head.xhtml" />
+    </h:head>
+    <h:body style="background-image: url(resources/imgs/Login.jpg);">
+        <div class="container">
+            <div class="row">
+                <div class="section"></div>
+                <main>
+                    <center>
+                        <div class="container">
+                            <div  class="z-depth-4 y-depth-4 x-depth-4  white-text lighten-4 row" style="display: inline-block; padding: 32px 48px 0px 48px; border: 1px; margin-top: 100px;">
+                                <div class="section">
+                                    <img src="resources/imgs/ICONO-SIS.png" alt="" id="icono"/>
+                                </div>
+                                <h:form>
+                                    <p:growl id="mensaje" showDetail="true"></p:growl>
+                                    <div class='row'>
+                                        <div class='input-field col s12'>
+                                            <h:inputText value="#{personaSession.persona.numeroIdentificacion}" id="usuario" 
+                                                         required="true" requiredMessage="Ingrese el número de su documento">
+                                                
+                                            </h:inputText>
+                                            <p:outputLabel for="usuario" value="Documento"/>
+                                        </div>
+                                    </div>
+                                    <div class='row'>
+                                        <div class='input-field col m12'>
+                                            <h:inputSecret  value="#{personaSession.persona.contrasena}" id='password' required="true" 
+                                                            requiredMessage="Digite su contraseña"/>
+                                            <p:outputLabel for='password' value="Contraseña"/>
+                                        </div>
+                                        <label style='float: right;'>
+                                            <a class="modal-trigger" href="#olvidocontraseña"><b style="color: #F5F5F5;">¿Olvidaste tu Contraseña?</b></a>
+                                        </label>
+                                    </div>
+                                    <br/>
+                                    <div class='row'>
+                                        <h:commandButton class="col s6 btn btn-small White-text waves-effect z-depth-1 y-depth-1" value="Ingresar"
+                                                         action="#{personaSession.iniciarSesion()}" style="margin-left: 87px; background-color: #009ED6; width: 52%;" />
+                                    </div>
+                                </h:form>
+                                <center>          
+                                    <a id="registro1" class="waves-effect waves-light btn modal-trigger" href="#registro">Registrarme</a>
+                                    <div id="registro" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Registro</h4>
+                                            <f:view>
+                                                <div class="row">
+                                                    <h:form id="formRegistroUser" class="col m12 l12 s12">
+                                                        <p:growl id="mensaje1" showDetail="true"/>
+                                                        <div class="input-field center col m6 l6 s6">
+                                                            <h:selectOneMenu id="genero" value="#{personaSession.persona.genero}" required="true"
+                                                                             requiredMessage="Elija un género por favor">
+                                                                <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                                                <f:selectItem itemValue="M" itemLabel="Masculino"/>  
+                                                                <f:selectItem itemValue="F" itemLabel="Femenino"/>
+                                                            </h:selectOneMenu>
+                                                            <p:outputLabel value="Género" for='genero'/>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">person</i>
+                                                            <p:inputText id="prn" value="#{personaSession.persona.primernombre}" 
+                                                                         title="Primer Nombre" required="true" 
+                                                                         requiredMessage="El primer nombre no acepta campos vacios"
+                                                                         validatorMessage="El Primer Nombre solo se permiten letras">
+                                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                                            </p:inputText>
+                                                           <p:outputLabel value="Primer Nombre" for="prn"/>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">person_outline</i>
+                                                            <p:outputLabel value="Segundo Nombre" for="segundonombre"/>
+                                                            <p:inputText id="segundonombre" value="#{personaSession.persona.segundonombre}" 
+                                                                         requiredMessage="Solo se permiten letras"
+                                                                validatorMessage="El Segundo Nombre solo se permiten letras">
+                                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">person</i>
+                                                            <p:outputLabel value="Primer Apellido"  for='primerapellido'/>
+                                                            <p:inputText id="primerapellido" value="#{personaSession.persona.primerapellido}" 
+                                                                         title="Primer Apellido" required="true"
+                                                                         requiredMessage="El primer apellido no acepta campos vacios"
+                                                                         validatorMessage="El Primer Apellido solo se permiten letras">
+                                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                                            
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">person_outline</i>
+                                                            <p:outputLabel value="Segundo Apellido" />
+                                                            <p:inputText id="segundoapellido" value="#{personaSession.persona.segundoapellido}" 
+                                                                         title="Segundo Apellido"
+                                                                         validatorMessage="El Segundo apellido solo se permiten letras">
+                                                            <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6 s6">
+                                                            <h:selectOneMenu id="tipoIdentificacion" value="#{personaSession.persona.tipoIdentificacion}"
+                                                                             required="true" requiredMessage="Elija un tipo de documento">
+                                                                <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                                                <f:selectItem itemValue="CC" itemLabel="Cédula de Ciudadanía"/>  
+                                                                <f:selectItem itemValue="CE" itemLabel="Cédula Extranjera"/>
+                                                                <f:selectItem itemValue="NIT" itemLabel="NIT"/>
+                                                            </h:selectOneMenu>
+                                                            <p:outputLabel value="Tipo de Identificación" for='tipoIdentificacion' />
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">credit_card</i>
+                                                            <p:outputLabel value="Numero de Identificación" for='numeroIdentificacion'/>
+                                                            <p:inputText id="numeroIdentificacion" value="#{personaSession.persona.numeroIdentificacion}" 
+                                                                         required="true" type="number"
+                                                                         requiredMessage="La Identificación no acepta campos vacios"
+                                                                         validatorMessage="La Identificación debe contener entre 8 y 10 digitos">
+                                                                <f:validateLength minimum="8" maximum="10"/>
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6 s6">
+                                                            
+                                                            <h:selectOneMenu id="ciudad" value="#{personaSession.persona.ciudadIdciudad}" required="true"
+                                                                             requiredMessage="Elija la ciudad de residencia">
+                                                                <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  /> 
+                                                                <f:selectItems value="#{ciudadSession.itemsAvailableSelectMany}" />
+                                                            </h:selectOneMenu>
+                                                            <p:outputLabel value="Ciudad" for='ciudad'/>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">location_on</i>
+                                                            <p:outputLabel value="Dirección" for='direccion' />
+                                                            <p:inputText id="direccion" value="#{personaSession.persona.direccion}" title="Direccion" 
+                                                                         required="true" validatorMessage="Dirección Invalida"
+                                                                         requiredMessage="La Dirección no acepta campos vacios">
+                                                            <f:validateRegex pattern="[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)"/>
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">phone_iphone</i>
+                                                            <p:outputLabel value="Telefono *" />
+                                                            <p:inputText id="telefono" value="#{personaSession.persona.telefono}" title="Telefono" 
+                                                                         required="true" validatorMessage="El telefono debe contener entre 7 y 10 digitos"
+                                                                         type="number" requiredMessage="El Telefono no acepta campos vacios">
+                                                                <f:validateLength minimum="7" maximum="10"/>
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">email</i>
+                                                            <p:outputLabel value="Correo" for='correo' />
+                                                            <p:inputText id="correo" value="#{personaSession.correo}" title="Correo" required="true" 
+                                                                         validatorMessage="Correo Invalido"
+                                                                         requiredMessage="El Correo no acepta campos vacios">
+                                                            <f:validateRegex pattern="[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)"/>
+                                                            </p:inputText>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">email</i>
+                                                            <p:outputLabel value="Repite el Correo *"  />
+                                                            <p:inputText id="correorep" value="#{personaSession.correoRep}" title="Correo" required="true" 
+                                                                         requiredMessage="El Correo no acepta campos vacios"/>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">lock</i>
+                                                            <p:outputLabel value="Contraseña *" />
+                                                            <p:password id="contrasena" value="#{personaSession.clave}" title="Contrasena" required="true" requiredMessage="La contraseña es obligatoria."/>
+                                                        </div>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">lock</i>
+                                                            <p:outputLabel value="Repite la Contraseña *" />
+                                                            <p:password id="contrasenarep" value="#{personaSession.claveRep}" title="Contrasena" required="true" requiredMessage="La contraseña es obligatoria"/>
+                                                        </div>
+                                                        <div class="col m12 l12">
+                                                            <h:commandLink action="#{personaSession.registroCliente()}" value="Aceptar" class="modal-action modal-close waves-effect waves-green btn-flat"/>
+                                                            <h:commandLink action="#!" class="modal-action modal-close waves-effect waves-red btn-flat" immediate="true" value="Cancelar" />
+                                                            <br/><br/>
+                                                        </div>
+                                                    </h:form>
+                                                </div>    
+                                            </f:view>
+                                        </div>
+                                    </div>
+                                </center>
+                                <br/>
+                            </div>
+                        </div>
+                        <div id="olvidocontraseña" class="modal">
+                                        <div class="modal-content">
+                                            <h4>Recuperar Contraseña</h4>
+                                            <f:view>
+                                                <div class="row">
+                                                    <h:form class="col m12 l12 s12">
+                                                        <p:growl id="mensaje1" showDetail="true"/>
+                                                        <p>Digite su correo electrónico donde recibirá un mensaje con el enlace de recuperación de contraseña</p>
+                                                        <div class="input-field center col m6 l6">
+                                                            <i class="material-icons prefix">email</i>
+                                                            <p:outputLabel value="Correo *"  />
+                                                            <p:inputText id="correo" value="#{personaSession.persona.correo}" title="Correo" required="true" requiredMessage="El correo es obligatorio."/>
+                                                        </div>
+                                                        
+                                                        <div class="input-field center col m12 l12">
+                                                            <h:commandLink action="#{personaSession.registroCliente()}" class="modal-action waves-effect waves-green btn-flat">Aceptar</h:commandLink>
+                                                            <h:commandLink action="#!" class="modal-action modal-close waves-effect waves-red btn-flat" immediate="true" value="Cancelar" />
+                                                            <br/><br/>
+                                                        </div>
+                                                    </h:form>
+                                                </div>    
+                                            </f:view>
+                                        </div>
+                                    </div>
+                    </center>
+                </main>
+            </div>
+        </div>
+
+        
+        <script src="resources/js/materialize.min.js"></script>
+        <script src="resources/js/misscript.js"></script>
+    </h:body>
+</html>

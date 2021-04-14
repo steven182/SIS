@@ -1,0 +1,162 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+    <div class="col s12 m12 l12" id="flotar">
+        <f:view>
+            <h:form id="formTecIn"><!-- Inicio dataTable Persona-->
+                <p:growl id="msgTecIn"/>
+                <h5 class="center-align"><h:outputText value="#{gu.listaUsuariosIn}"/></h5>
+                <hr/>
+                #{personaSession.listarUsuariosInactivos()}
+                <p:dataTable id="tblTecIn" value="#{personaSession.listaPersona}" var="ti"
+                             editable="true">
+                    <p:ajax event="rowEdit" listener="#{personaSession.guardarPersona(ti)}" update=":formTecIn:msgTecIn"/>
+                    <p:ajax event="rowEditCancel" listener="#{personaSession.cancelar2}" update=":formTecIn:msgTecIn"/>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblRol}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.rolIdRol.nombre}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu value="#{ti.rolIdRol}">
+                                    <f:selectItems value="#{rolSession.itemsAvailableSelectOne}"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblPrimerNombre}"/>
+                        </f:facet>
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.primernombre}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{ti.primernombre}"
+                                             validatorMessage="El Nombre solo se permiten letras">
+                                    <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblPrimerApellido}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.primerapellido}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{ti.primerapellido}"
+                                             validatorMessage="El Apellido solo se permiten letras">
+                                    <f:validateRegex pattern="^[a-zA-ZñÑ]+$"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblTipoId}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.tipoIdentificacion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:selectOneMenu  value="#{ti.tipoIdentificacion}">
+                                    <f:selectItem itemDisabled="true" itemLabel="Seleccione una opción"  />  
+                                    <f:selectItem itemValue="CC" itemLabel="Cédula de Ciudadanía"/>  
+                                    <f:selectItem itemValue="CE" itemLabel="Cédula Extranjera"/>
+                                    <f:selectItem itemValue="NIT" itemLabel="NIT"/>
+                                </p:selectOneMenu>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblNumId}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.numeroIdentificacion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{ti.numeroIdentificacion}"
+                                             validatorMessage="La identificación debe contener entre 8 y 10 digitos">
+                                    <f:validateLength minimum="8" maximum="10"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblDireccion}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.direccion}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{ti.direccion}"
+                                             validatorMessage="Dirección Invalida">
+                                    <f:validateRegex pattern="[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?(( |\-)[a-zA-Z1-9À-ÖØ-öø-ÿ]+\.?)* (((#|[nN][oO]\.?) ?)?\d{1,4}(( ?[a-zA-Z0-9\-]+)+)?)"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblTelefono}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.telefono}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{ti.telefono}"
+                                             validatorMessage="El telefono debe contener entre 7 y 10 digitos"
+                                             type="number">
+                                    <f:validateLength minimum="7" maximum="10"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblCorreo}"/>
+                        </f:facet>         
+                        <p:cellEditor>
+                            <f:facet name="output">
+                                <h:outputText value="#{ti.correo}"/>
+                            </f:facet>
+                            <f:facet name="input">
+                                <p:inputText value="#{ti.correo}"
+                                             validatorMessage="Correo Invalido">
+                                    <f:validateRegex pattern="[a-z0-9_\-]+(\.[_a-z0-9\-]+)*@([_a-z0-9\-]+\.)+([a-z]{2}|aero|asia|arpa|biz|cat|com|coop|edu|gov|info|int|jobs|mil|mobi|museum|name|net|org|pro|tel|travel|xxx)"/>
+                                </p:inputText>
+                            </f:facet>
+                        </p:cellEditor> 
+                    </p:column>
+                    <p:column>
+                        <f:facet name="header">
+                            <h:outputText value="#{gu.lblAccion}"/>
+                        </f:facet>
+                        <p:rowEditor/>
+                        <p:commandButton action="#{personaSession.habilitarTecnico(ti)}" update=":formTecIn:msgTecIn, tblTecIn,formularioTecnicosActivos" 
+                                         title="#{gu.lblHabilitar}" icon="ui-icon-unlocked" />
+                    </p:column>
+                </p:dataTable>
+            </h:form><!-- fin dataTable Persona-->
+        </f:view>
+    </div>
+</ui:fragment>

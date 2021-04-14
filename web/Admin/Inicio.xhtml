@@ -1,0 +1,48 @@
+<ui:composition template="../WEB-INF/resource/template/template.xhtml"
+      xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets">
+    <ui:define name="contenido">
+        
+        <div class="col s12 m12 l12" id="flotar"> <!-- inicio contenido tabla y formulario -->
+            <h3 class="titulos" style="color: #009ed6; margin-bottom: 33px;">Inicio</h3>
+
+            <div class="slider">
+                <ul class="slides">
+                    <li>
+                        <img src="#{request.contextPath}/resources/imgs/cmyk.jpg"/> <!-- random image -->
+                        <div class="caption center-align">
+                            <h3>Bienvenido</h3>
+                            <h5 class="light grey-text text-lighten-3">Disfrute de nuestro sistema de información</h5>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="#{request.contextPath}/resources/imgs/cmyk2.jpg"/> <!-- random image -->
+                        <div class="caption center-align">
+                            <h3>En SIS podrá gestionar servicios</h3>
+                            <h5 class="light grey-text text-lighten-3">Tenga la facilidad de generar servicios tecnicos desde cualquier lugar.</h5>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="#{request.contextPath}/resources/imgs/Toners.jpg"/> <!-- random image -->
+                        <div class="caption center-align">
+                            <h3>Gestione los consumibles utilizados en cada servicio</h3>
+                            <h5 class="light grey-text text-lighten-3">Tenemos a disposición los consumibles para su negocio</h5>
+                        </div>
+                    </li>
+                    <li>
+                        <img src="#{request.contextPath}/resources/imgs/cmyk3.jpg"/> <!-- random image -->
+                        <div class="caption center-align">
+                            <h3>Gestione y lleve un historial de los servicios prestados</h3>
+                            <h5 class="light grey-text text-lighten-3">Genere un informe detallado de los servicios asignados.</h5>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+
+        </div> <!-- fin slider -->
+    </ui:define>
+</ui:composition>
+
+
+

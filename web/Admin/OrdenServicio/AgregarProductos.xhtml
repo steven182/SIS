@@ -1,0 +1,56 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui">
+
+   <h:column rendered="#{personaSession.personaSesion.rolIdRol.idRol == 1}"> 
+
+        <div class="col m6 l6 s6">
+            <f:view>
+                <h:form id="AgregarProductos">
+                    <h4 class="titulos" style="color: #009ed6;">
+                        <h:outputText value="#{os.agregarProductosTitulo}"/>
+                    </h4>
+                    <div class="col m12 l12 s12">
+                        <i class="material-icons prefix">devices</i>
+                        <p:outputLabel for="detalleProducto" value="#{os.lblSeleccioneProducto}" />
+                        <p:selectManyMenu id="detalleProducto" value="#{detalleOrdenServicioSession.listaAsignacion}"
+                                          required="true" converter="asignacion" showCheckbox="true"
+                                         requiredMessage="Seleccione uno o mas productos">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{asignacionProductosSession.listaAsignarServicio}"/>
+                        </p:selectManyMenu>
+
+                    </div>
+                    <!-- se muestran todos los servicios activos, campo para Admin y tecnico-->
+                    
+                        <div class="col m12 l12 s12">
+                            <i class="material-icons prefix">content_paste</i>
+                            <p:outputLabel for="ordenServicioidOrdenServicio" 
+                                           value="#{os.lblSeleccioneIdServicio}" style="margin-left: 15px"/>
+                            <h:selectOneMenu id="ordenServicioidOrdenServicio" value="#{detalleOrdenServicioSession.ordenServicio}" 
+                                             required="true" 
+                                             requiredMessage="The OrdenServicioidOrdenServicio field is required." >
+                                <!-- TODO: update below reference to list of available items-->
+                                
+                                <f:selectItems value="#{ordenServicioSession.listaServicioActivosTodos}"/>
+                                <p:ajax event="change" listener="#{detalleOrdenServicioSession.obtenerInfo()}" 
+                                        update="detalleProducto" />
+                            </h:selectOneMenu>
+
+                        </div>
+                    
+                    
+                    <p:commandButton value="#{os.btnIngresarDetalleOrden}" action="#{detalleOrdenServicioSession.asignarServicio()}"
+                                    class="btn waves-effect waves-light" style="float: right; margin-top: 10px;" update=":AgregarProductos,mensaje,detalleProducto"
+                                    ajax="false" resetValues="true"/>
+                </h:form>
+            </f:view>
+        </div>
+
+       </h:column>
+
+</ui:fragment>

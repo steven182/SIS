@@ -1,0 +1,59 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:fragment xmlns="http://www.w3.org/1999/xhtml"
+             xmlns:h="http://xmlns.jcp.org/jsf/html"
+             xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+             xmlns:f="http://xmlns.jcp.org/jsf/core"
+             xmlns:p="http://primefaces.org/ui"
+             xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+    <div class="row">
+        <div class="col m6 l6 s6">
+            <f:view>
+                <h:form id="formAsignarProd">
+                    <h3 class="titulos"><h:outputText value="#{dp.lblAsignarProductos}"/></h3>
+                    <p:growl id="msj" showDetail="true"/>
+                    <div class="m6 l6 s6">
+                        <p:outputLabel value="#{os.tblProductos}" for="prodcutosAsig" />
+                        <p:selectManyMenu id="prodcutosAsig" converter="detalleProductoSession"
+                                          value="#{asignacionProductosSession.listProd}" required="true"
+                                          filter="true" filterMatchMode="contains" showCheckbox="true"
+                                          requiredMessage="The DetalleProductoidDetalleProducto field is required.">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{detalleProductoSession.listaDetatProducDisponible}"/>
+                        </p:selectManyMenu>
+                    </div>
+                    <div class="m6 l6 s6">
+                        <p:outputLabel value="#{dp.lblUsuario}" for="personaidPersona" />
+                        <p:selectOneMenu id="personaidPersona" value="#{asignacionProductosSession.asignacion.personaidPersona}"
+                                         required="true" requiredMessage="The PersonaidPersona field is required.">
+                            <!-- TODO: update below reference to list of available items-->
+                            <f:selectItems value="#{personaSession.listaClienteAsignacionProductos}"/>
+                        </p:selectOneMenu>
+                    </div>
+
+                    <p:commandButton value="#{dp.btnGuardar}" action="#{asignacionProductosSession.asignarProductos()}"
+                                     update="msj,prodcutosAsig,form1:tablaMaquina" style="float: right; margin-top: 10px;"/>
+                </h:form>
+            </f:view>
+        </div>
+        <div class="col m6 l6 s6">
+            <c:choose>
+                <c:when test="#{chartProdAsignados.listaProd.size() >= 1}">
+                    #{chartProdAsignados.listar()}
+
+                    <h:form style="margin-top: 100px;" id="chart">
+                        <p:chart type="bar" model="#{chartProdAsignados.barModel}"/>
+
+                    </h:form>
+
+                </c:when>
+                <c:otherwise>
+                    <h3 class="titulos">No hay Productos Asignados</h3>
+                </c:otherwise>
+            </c:choose>
+        </div>
+
+    </div>
+
+</ui:fragment>
+
