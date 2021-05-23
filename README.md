@@ -1,5 +1,5 @@
 # SIS
-Proyecto hecho en Java 8 con JSF, Primefaces y conectado a una DB MySQL por medio de Hibernate
+Proyecto hecho en Java 8 con JSF, Primefaces y conectado a una DB MySQL por medio de Hibernate y JPA
 
 # Import
 el proyecto de debe importar desde el IDE Netbeans
